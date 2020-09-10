@@ -36,7 +36,7 @@ public class InfoCMD extends ACommand {
 	
 	@Override
 	public String permission() {
-		return "arcadia.info";
+		return "arcadia.whois";
 	}
 	
 	@Override

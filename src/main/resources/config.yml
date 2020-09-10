@@ -41,6 +41,8 @@ survival-settings:
 command-settings:
   command-spy:
     enable: true
+  gm:
+    enable: true
   home:
     enable: true
     cooldown: 45
@@ -74,6 +76,8 @@ command-settings:
   report:
     enable: true
     cooldown: 240
+  spawn:
+    enable: true
   tag:
     enable: true
   tpa:

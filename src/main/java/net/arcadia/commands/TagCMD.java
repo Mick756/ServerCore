@@ -83,13 +83,12 @@ public class TagCMD extends ACommand {
 						arcadian.changeGroup("Member");
 						
 						respondf(sender, "&7You reset %s to Member.", player.getName());
-						return;
 					}
 					
 				} else {
 					
 					if (args[0].equalsIgnoreCase("tag")) {
-						String group = args[1];
+						String group = args[1].toLowerCase();
 						groupExists(group);
 						
 						String newTag = Globals.color(args[2]);
@@ -129,7 +128,7 @@ public class TagCMD extends ACommand {
 					}
 					
 					if (args[0].equalsIgnoreCase("set")) {
-						String group = args[2];
+						String group = args[2].toLowerCase();
 						groupExists(group);
 						
 						try {
@@ -142,15 +141,13 @@ public class TagCMD extends ACommand {
 							OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(args[1]);
 							
 							if (player.hasPlayedBefore()) {
-								String.format("lp user %s parent set %s", player.getName(), group);
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), String.format("lp user %s parent set %s", player.getName(), group));
 								
 								respondf(sender, "&7You changed %s's group to %s.", player.getName(), group);
 							} else {
 								respond(sender, "&cThat player was not found because they have never played on the server!");
 							}
 						}
-						
-						return;
 					} else {
 						respondiu(sender, label);
 						this.execute(sender, label, new String[]{});

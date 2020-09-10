@@ -2,6 +2,7 @@ package net.arcadia;
 
 import lombok.Getter;
 import net.arcadia.commands.*;
+import net.arcadia.commands.gamemode.*;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;
@@ -19,24 +20,6 @@ import java.util.List;
 public abstract class ACommand {
 	
 	private static final @Getter List<ACommand> commands = new ArrayList<>();
-	
-	static  {
-		addCommand("command-spy", new CommandSpyCMD());
-		commands.add(new HelpCMD());
-		addCommand("home", new HomeCMD());
-		addCommand("info", new InfoCMD());
-		addCommand("msg", new MsgCMD());
-		addCommand("mute", new MuteCMD());
-		addCommand("mvp", new MvpCMD());
-		addCommand("nick", new NickCMD());
-		addCommand("ping", new PingCMD());
-		addCommand("random-teleport", new RandomTeleportCMD());
-		addCommand("reply", new ReplyCMD());
-		addCommand("bug-report", new ReportBugCMD());
-		addCommand("report", new ReportCMD());
-		addCommand("tag", new TagCMD());
-		addCommand("tpa", new TpaCMD());
-	}
 	
 	public static void respondnp(CommandSender sender, String msg) {
 		sender.sendMessage(Globals.color(msg));
@@ -105,8 +88,35 @@ public abstract class ACommand {
 		}
 	}
 	
+	public static int addCommands() {
+		addCommand("command-spy", new CommandSpyCMD());
+		commands.add(new HelpCMD());
+		addCommand("home", new HomeCMD());
+		addCommand("gm", new GmCMD(), new GmaCMD(), new GmcCMD(), new GmsCMD(), new GmspCMD());
+		addCommand("info", new InfoCMD());
+		addCommand("msg", new MsgCMD());
+		addCommand("mute", new MuteCMD());
+		addCommand("mvp", new MvpCMD());
+		addCommand("nick", new NickCMD());
+		addCommand("ping", new PingCMD());
+		addCommand("random-teleport", new RandomTeleportCMD());
+		addCommand("reply", new ReplyCMD());
+		addCommand("bug-report", new ReportBugCMD());
+		addCommand("report", new ReportCMD());
+		addCommand("tag", new TagCMD());
+		addCommand("tpa", new TpaCMD());
+		addCommand("spawn", new SpawnCMD());
+		return commands.size();
+	}
+	
 	private static void addCommand(String path, ACommand command) {
 		boolean enable = ArcadiaCore.getInstance().getConfig().getBoolean("command-settings." + path + ".enable");
 		if (enable) commands.add(command);
+	}
+	
+	private static void addCommand(String path, ACommand... commands) {
+		for (ACommand command : commands) {
+			addCommand(path, command);
+		}
 	}
 }

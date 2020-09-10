@@ -50,3 +50,15 @@ commands:
   info:
     description: Get info about a player, off or online.
     aliases: [whois]
+  spawn:
+    description: Teleport or set the global spawn.
+  gm:
+    description: Change your gamemode.
+  gma:
+    description: Change your gamemode to adventure.
+  gmc:
+    description: Change your gamemode to creative.
+  gms:
+    description: Change your gamemode to survival.
+  gmsp:
+    description: Change your gamemode to spectator.

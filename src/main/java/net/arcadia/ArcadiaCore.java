@@ -112,6 +112,9 @@ public class ArcadiaCore extends JavaPlugin {
 		messenger.registerOutgoingPluginChannel(this, "arcadiacore:out");
 		info("Registered the incoming and outgoing BungeeCord channels");
 		
+		int commands = ACommand.addCommands();
+		info(String.format("Registered %d commands.", commands));
+		
 		registerListeners(new ChatListener(), new ConnectionListener(), new CommandListener(),
 				new GlobalMenuListener(), new MvpMenuEvents());
 		info("Registered all plugin listeners");

@@ -3,6 +3,7 @@ package net.arcadia.commands;
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
 import net.arcadia.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -62,9 +63,14 @@ public class RandomTeleportCMD extends ACommand {
 	public void execute(CommandSender sender, String label, String[] args) {
 		Player player = validatePlayer(sender);
 		
+		if (!player.getWorld().getName().equals("world")) {
+			respond(sender, "&cYou must be in the overworld to use this command.");
+			return;
+		}
+		
 		if (!cooldowns.containsKey(player.getUniqueId())) {
 			
-			Location rLoc = this.getRandomLocation(player.getWorld());
+			Location rLoc = this.getRandomLocation();
 			player.teleport(rLoc);
 			
 			if (cooldown != -1) {
@@ -86,12 +92,11 @@ public class RandomTeleportCMD extends ACommand {
 		}
 	}
 	
-	private Location getRandomLocation(World world) {
+	private Location getRandomLocation() {
+		World world = Bukkit.getWorld("world");
 		double x = minX + (Math.random() * (maxX - minX + 1));
 		double z = minZ + (Math.random() * (maxZ - minZ + 1));
 		
-		Location location = new Location(world, x + 0.5, world.getHighestBlockYAt((int) x, (int) z) + 1, z + 0.5);
-		
-		return location;
+		return new Location(world, x + 0.5, world.getHighestBlockYAt((int) x, (int) z) + 1, z + 0.5);
 	}
 }

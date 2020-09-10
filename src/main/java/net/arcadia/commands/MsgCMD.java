@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 
 public class MsgCMD extends ACommand {
 	
-	private static String FORMAT_SEND = Globals.color("&3To %s:&7 %s");
-	private static String FORMAT_RECEIVE = Globals.color("&3From %s:&7 %s");
+	private static String FORMAT_SEND = Globals.color("&3To %s:");
+	private static String FORMAT_RECEIVE = Globals.color("&3From %s:");
 	
 	@Override
 	public String alias() {
@@ -83,8 +83,8 @@ public class MsgCMD extends ACommand {
 		
 		String message = Globals.descriptionFromArgs(1, args);
 		
-		aSend.sendMessage(false, String.format(FORMAT_SEND, receive.getName(), message));
-		aReceive.sendMessage(false, String.format(FORMAT_RECEIVE, send.getName(), message));
+		aSend.sendMessage(false, String.format(FORMAT_SEND, receive.getName()) + "&7 " + message);
+		aReceive.sendMessage(false, String.format(FORMAT_RECEIVE, send.getName()) + "&7 " + message);
 		aReceive.setLastMessaged(aSend);
 	}
 }

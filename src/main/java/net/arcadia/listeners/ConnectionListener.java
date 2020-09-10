@@ -1,6 +1,5 @@
 package net.arcadia.listeners;
 
-import net.arcadia.ArcadiaCore;
 import net.arcadia.Arcadian;
 import net.arcadia.chat.Mute;
 import net.arcadia.chat.PlayerMute;

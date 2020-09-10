@@ -3,7 +3,6 @@ package net.arcadia.misc;
 import lombok.Getter;
 import net.arcadia.Arcadian;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,11 +24,6 @@ public class Home {
 	
 	public void teleport() {
 		Arcadian.get(this.player).sendMessage(true, "&7You are being teleported to your home&b %s&7.", this.name);
-		
-		if (!(this.location.getBlock().getType().equals(Material.AIR) && this.location.add(0, 1, 0).getBlock().getType().equals(Material.AIR))) {
-			this.location.setY(this.location.getWorld().getHighestBlockYAt(this.location.getBlockX(), this.location.getBlockZ()));
-		}
-		
 		this.player.teleport(this.location);
 	}
 	
