@@ -1,0 +1,52 @@
+name: ArcadiaCore
+main: net.arcadia.ArcadiaCore
+version: 0.0.1
+api-version: 1.13
+author: Kidzyy
+description: The backbone of Arcadia.
+depend: [LuckPerms, Vault]
+
+commands:
+  help:
+    description: Main help command.
+    aliases: [?, hlp]
+  tags:
+    description: Change colored player tags.
+    aliases: [ctags, tag, tgs]
+  mute:
+    description: Mute a player, group, or world for a certain amount of time.
+    aliases: [mts, mutes]
+  random-teleport:
+    description: Teleport to a random location.
+    aliases: [rtp, randomtp, rteleport]
+  commandspy:
+    description: Spy on commands from the server.
+    aliases: [cmdspy, spycmd, spycommand]
+  report:
+    description: Report a player for cheating or bad behavior.
+    aliases: [rpt, reports]
+  bugreport:
+    description: Report a bug to server administrators.
+    aliases: [bugreport, breport, bugr]
+  ping:
+    description: Display your current ping to the server.
+    aliases: [myping, whatsmyping]
+  mvp:
+    description: Open up the MVP comsetic menu.
+    aliases: [mvpmenu, cosmmvp]
+  msg:
+    description: Message a player.
+    aliases: [message]
+  tpa:
+    description: Teleport to a player.
+    alises: [tpaccept, tprequest]
+  reply:
+    description: Reply to a message.
+    aliases: [r]
+  home:
+    description: Teleport to, create, and delete home locations.
+  nick:
+    description: Change your display name.
+  info:
+    description: Get info about a player, off or online.
+    aliases: [whois]

@@ -1,0 +1,84 @@
+##-------------------------------------------------------------------------------------------##
+##                                                                                           ##
+##  Color codes: & + 0 (black), 1 (dark blue), 2 (dark green), 3 (dark aqua), 4 (dark red),  ##
+##               5 (dark purple), 6 (gold), 7 (gray), 8 (dark gray), 9 (blue),               ##
+##               a (green), b (aqua), c (red), d (light purple), e (yellow), f (white),      ##
+##               k (magic), l (bold), m (strike through), n (underline),                     ##
+##               o (italic), r (reset)                                                       ##
+##                                                                                           ##
+##-------------------------------------------------------------------------------------------##
+
+## Language file
+language-file: en_us.yml
+
+## Proxy (no port)
+proxy: 127.0.0.1
+
+## Tag color configuration
+tags:
+  member: '&7[Member]'
+  vip: '&a[VIP]'
+  mvp: '&b[MVP]'
+  moderator: '&2[Moderator]'
+  developer: '&c[Developer]'
+  builder: '&9[Builder]'
+  admin: '&c[Admin]'
+  owner: '&4[Owner]'
+  cdesigner: '&3[CDesigner]'
+
+## Chat configuration
+chat-format: '%prefix% %name%:&f %message%'
+chat-filter: true
+
+survival-settings:
+  ## Is this the SMP server?
+  survival: true
+  first-join-spawn:
+    x: 0
+    z: 0
+
+## Cooldowns are in seconds
+command-settings:
+  command-spy:
+    enable: true
+  home:
+    enable: true
+    cooldown: 45
+  info:
+    enable: true
+  msg:
+    enable: true
+  mute:
+    enable: true
+  mvp:
+    enable: true
+  nick:
+    enable: true
+  ping:
+    enable: true
+  random-teleport:
+    enable: true
+    bounds:
+      x:
+        min: -1000
+        max: 1000
+      z:
+        min: -1000
+        max: 1000
+    cooldown: 300
+  reply:
+    enable: true
+  bug-report:
+    enable: true
+    cooldown: 240
+  report:
+    enable: true
+    cooldown: 240
+  tag:
+    enable: true
+  tpa:
+    enable: true
+    cooldown: 45
+
+## Link to the shop
+shop-link: 'https://shop.arcadiaserver.ml'

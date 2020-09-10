@@ -1,0 +1,19 @@
+player-list-header:
+  - " "
+  - "&7Welcome&e %player%&7, to the great"
+  - "&6&lArcadia Server!"
+  - " "
+
+player-list-footer:
+  - " "
+  - "  &7Visit the store for ranks and tags!  "
+  - " "
+
+chat-cancelled-because-mute:
+  - " "
+  - "&c&lMessage was cancelled because chat is muted!"
+  - "&c&lReason:&e %description%"
+  - "&c&lRemaining Time:&e %time_left%"
+  -
+
+no-permission: '&cSorry, you do not have permission to do this.'
