@@ -27,6 +27,17 @@ public abstract class Mute implements ConfigurationSerializable {
 			public void run() {
 				
 				for (Mute mute : mutes) {
+					
+					if (mute instanceof PlayerMute) {
+						PlayerMute pm = (PlayerMute) mute;
+						
+						if (pm.getPlayer() == null || !pm.getPlayer().isOnline()) {
+							awaitingMutes.put(pm.getPlayer().getUniqueId(), pm);
+							toRemove.add(mute);
+						}
+						
+					}
+					
 					if (mute.endAtMilli() > System.currentTimeMillis()) continue;
 					
 					toRemove.add(mute);
@@ -57,6 +68,10 @@ public abstract class Mute implements ConfigurationSerializable {
 			file.createNewFile();
 		}
 		YamlConfiguration mutesYml = YamlConfiguration.loadConfiguration(file);
+		
+		List<Mute> allMutes = new ArrayList<>();
+		allMutes.addAll(mutes);
+		allMutes.addAll(awaitingMutes.values());
 		
 		for (int i = 0; i < mutes.size(); i++) {
 			Mute m = mutes.get(i);

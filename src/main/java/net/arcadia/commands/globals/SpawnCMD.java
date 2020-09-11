@@ -1,4 +1,4 @@
-package net.arcadia.commands;
+package net.arcadia.commands.globals;
 
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
@@ -38,15 +38,16 @@ public class SpawnCMD extends ACommand {
 		if (args.length == 1 && args[0].equalsIgnoreCase("set")) {
 			if (player.hasPermission("arcadia.setspawn")) {
 				int x = player.getLocation().getBlockX();
+				int y = player.getLocation().getBlockY();
 				int z = player.getLocation().getBlockZ();
 				
 				FileConfiguration f = ArcadiaCore.getInstance().getConfig();
-				f.set("survival-settings.first-join-spawn.x", x);
-				f.set("survival-settings.first-join-spawn.z", z);
+				f.set("spawn.x", x);
+				f.set("spawn.y", y);
+				f.set("spawn.z", z);
 				ArcadiaCore.getInstance().saveConfig();
 				
 				World world = Bukkit.getWorld("world");
-				int y = world.getHighestBlockYAt(x, z);
 				ArcadiaCore.setSpawn(new Location(world, x, y, z));
 				
 				respondf(sender, "&7You set spawn to [&eX:&b %d&7, &eY:&b %d&7, &eZ:&b %d&7].", x, y, z);

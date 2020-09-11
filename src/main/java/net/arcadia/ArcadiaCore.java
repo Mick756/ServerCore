@@ -5,16 +5,16 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import net.arcadia.chat.ChatListener;
 import net.arcadia.chat.Mute;
-import net.arcadia.misc.ArcadianEconomy;
-import net.arcadia.misc.PluginMessageManager;
-import net.arcadia.util.io.CustomFile;
 import net.arcadia.listeners.CommandListener;
 import net.arcadia.listeners.ConnectionListener;
 import net.arcadia.listeners.GlobalMenuListener;
 import net.arcadia.listeners.MvpMenuEvents;
+import net.arcadia.misc.ArcadianEconomy;
+import net.arcadia.misc.PluginMessageManager;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;
+import net.arcadia.util.io.CustomFile;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
@@ -134,9 +134,9 @@ public class ArcadiaCore extends JavaPlugin {
 		new Util();
 		
 		World world = Bukkit.getWorld("world");
-		int x = getConfig().getInt("survival-settings.first-join-spawn.x");
-		int z = getConfig().getInt("survival-settings.first-join-spawn.z");
-		int y = world.getHighestBlockYAt(x, z);
+		int x = getConfig().getInt("spawn.x");
+		int z = getConfig().getInt("spawn.z");
+		int y = getConfig().getInt("spawn.y");
 		spawn = new Location(world, x, y, z);
 		
 		info("Initialization complete.");

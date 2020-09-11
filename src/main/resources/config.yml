@@ -30,12 +30,14 @@ tags:
 chat-format: '%prefix% %name%:&f %message%'
 chat-filter: true
 
+spawn:
+  x: 0
+  y: 80
+  z: 0
+
 survival-settings:
   ## Is this the SMP server?
   survival: true
-  first-join-spawn:
-    x: 0
-    z: 0
 
 ## Cooldowns are in seconds
 command-settings:

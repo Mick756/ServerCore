@@ -1,4 +1,4 @@
-package net.arcadia.commands;
+package net.arcadia.commands.globals;
 
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
@@ -8,7 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class TpaCMD extends ACommand {

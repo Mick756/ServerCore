@@ -1,8 +1,16 @@
 package net.arcadia;
 
 import lombok.Getter;
-import net.arcadia.commands.*;
+import net.arcadia.commands.MvpCMD;
+import net.arcadia.commands.NickCMD;
+import net.arcadia.commands.admin.CommandSpyCMD;
+import net.arcadia.commands.admin.InfoCMD;
+import net.arcadia.commands.admin.MuteCMD;
+import net.arcadia.commands.admin.TagCMD;
 import net.arcadia.commands.gamemode.*;
+import net.arcadia.commands.globals.*;
+import net.arcadia.commands.reports.ReportBugCMD;
+import net.arcadia.commands.reports.ReportCMD;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;

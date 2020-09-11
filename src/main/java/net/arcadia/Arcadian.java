@@ -8,7 +8,9 @@ import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -24,7 +26,7 @@ public class Arcadian extends OfflineArcadian {
 	private final @Getter UUID uuid;
 	
 	private @Getter Player player = null;
-	private @Getter OfflinePlayer offlinePlayer = null;
+	private OfflinePlayer offlinePlayer = null;
 	
 	private final File configFile;
 	private final @Getter YamlConfiguration config;
@@ -81,17 +83,17 @@ public class Arcadian extends OfflineArcadian {
 		arcadians.put(uuid, this);
 	}
 	
-	public void triggerFirstJoin() {
+	public void updateFirstJoin() {
 		Date now = new Date();
 		
 		this.firstJoin = now;
-		this.config.set("first-join", now);
+		this.config.set("first-join", now.getTime());
 		this.save();
-		
-		FileConfiguration gcon = ArcadiaCore.getInstance().getConfig();
-		if (gcon.getBoolean("survival-settings.survival")) {
-			this.player.teleport(ArcadiaCore.getSpawn());
-		}
+	}
+	
+	public void triggerFirstJoin() {
+		updateFirstJoin();
+		this.player.teleport(ArcadiaCore.getSpawn());
 		
 		Bukkit.broadcastMessage(Globals.color(String.format("&3&lWelcome&b %s&3&l to the server!", this.player.getName())));
 	}
@@ -101,7 +103,15 @@ public class Arcadian extends OfflineArcadian {
 	}
 	
 	public Date getFirstJoin() {
-		return this.firstJoin == null ? new Date() : this.firstJoin;
+		if (this.firstJoin == null) {
+			updateFirstJoin();
+		}
+		
+		return this.firstJoin;
+	}
+	
+	public void sendMessage(String message) {
+		this.player.sendMessage(Globals.color(message));
 	}
 	
 	public void sendMessage(boolean prefix, String message, Object... formats) {
@@ -200,7 +210,7 @@ public class Arcadian extends OfflineArcadian {
 		this.receivingMessages = this.config.getBoolean("messages");
 		this.nick = this.config.getString("nick");
 		this.timesMuted = this.config.getInt("history.mutes");
-		this.firstJoin = (Date) config.get("first-join");
+		this.firstJoin = new Date(config.getLong("first-join"));
 		this.balance = config.getDouble("balance");
 		this.homes = Home.get(this);
 	}

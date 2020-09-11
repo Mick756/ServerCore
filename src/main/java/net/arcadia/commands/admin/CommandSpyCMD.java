@@ -1,4 +1,4 @@
-package net.arcadia.commands;
+package net.arcadia.commands.admin;
 
 import lombok.Getter;
 import net.arcadia.ACommand;

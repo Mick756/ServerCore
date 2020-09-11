@@ -1,6 +1,6 @@
 package net.arcadia.listeners;
 
-import net.arcadia.commands.CommandSpyCMD;
+import net.arcadia.commands.admin.CommandSpyCMD;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

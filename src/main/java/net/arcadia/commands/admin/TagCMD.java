@@ -1,4 +1,4 @@
-package net.arcadia.commands;
+package net.arcadia.commands.admin;
 
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
