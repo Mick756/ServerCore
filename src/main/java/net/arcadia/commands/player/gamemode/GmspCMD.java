@@ -1,15 +1,15 @@
-package net.arcadia.commands.gamemode;
+package net.arcadia.commands.player.gamemode;
 
 import net.arcadia.ACommand;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GmaCMD extends ACommand {
+public class GmspCMD extends ACommand {
 	
 	@Override
 	public String alias() {
-		return "gma";
+		return "gmsp";
 	}
 	
 	@Override
@@ -31,8 +31,8 @@ public class GmaCMD extends ACommand {
 	public void execute(CommandSender sender, String label, String[] args) {
 		Player player = validatePlayer(sender);
 		
-		player.setGameMode(GameMode.ADVENTURE);
-		respond(sender, "&7Changed your gamemode to&b adventure&7.");
+		player.setGameMode(GameMode.SPECTATOR);
+		respond(sender, "&7Changed your gamemode to&b spectator&7.");
 	}
 }
 

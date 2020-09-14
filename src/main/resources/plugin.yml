@@ -1,6 +1,6 @@
 name: ArcadiaCore
 main: net.arcadia.ArcadiaCore
-version: 0.0.1
+version: 0.0.2
 api-version: 1.13
 author: Kidzyy
 description: The backbone of Arcadia.
@@ -62,3 +62,23 @@ commands:
     description: Change your gamemode to survival.
   gmsp:
     description: Change your gamemode to spectator.
+  heal:
+    description: Heal yourself or a player.
+  feed:
+    description: Feed yourself or a player.
+  balance:
+    description: View your bank balance.
+    aliases: [bal, viewbal, wallet]
+  balanceedit:
+    description: Edit yours or another player's balance.
+    aliases: [editbal, baledit, walletedit, editwallet]
+  pay:
+    description: Pay a player.
+  createkit:
+    description: Create a kit.
+  kit:
+    description: List or select a it.
+  permlist:
+    description: List permissions of a certain group.
+  perm:
+    description: Modify permissions of a group.

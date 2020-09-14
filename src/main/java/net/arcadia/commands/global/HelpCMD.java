@@ -1,4 +1,4 @@
-package net.arcadia.commands.globals;
+package net.arcadia.commands.global;
 
 import net.arcadia.ACommand;
 import org.bukkit.command.CommandSender;

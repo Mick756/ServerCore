@@ -1,4 +1,4 @@
-package net.arcadia.commands.gamemode;
+package net.arcadia.commands.player.gamemode;
 
 import net.arcadia.ACommand;
 import org.bukkit.Bukkit;

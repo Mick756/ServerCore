@@ -32,7 +32,7 @@ public class ArcadianEconomy implements Economy {
 	
 	@Override
 	public String format(double v) {
-		return "$%d";
+		return String.format("$%.2f", v);
 	}
 	
 	@Override
@@ -114,9 +114,10 @@ public class ArcadianEconomy implements Economy {
 	
 	@Override
 	public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
+		Arcadian arc = Arcadian.get(offlinePlayer.getUniqueId());
 		
 		if (this.has(offlinePlayer, v)) {
-			Arcadian.get(offlinePlayer.getUniqueId()).setBalance(this.getBalance(offlinePlayer) - v);
+			arc.setBalance(arc.getBalance() - v);
 			return new EconomyResponse(v, this.getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
 		}
 		
@@ -140,7 +141,9 @@ public class ArcadianEconomy implements Economy {
 	
 	@Override
 	public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-		Arcadian.get(offlinePlayer.getUniqueId()).setBalance(this.getBalance(offlinePlayer) + v);
+		Arcadian arc = Arcadian.get(offlinePlayer.getUniqueId());
+		
+		arc.setBalance(arc.getBalance() + v);
 		return new EconomyResponse(v, this.getBalance(offlinePlayer), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 	

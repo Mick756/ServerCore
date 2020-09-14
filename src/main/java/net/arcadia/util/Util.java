@@ -17,9 +17,12 @@ import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Util {
 	
@@ -34,9 +37,7 @@ public class Util {
 	private static void loadBadWords() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("https://docs.google.com/spreadsheets/d/1hIEi2YG3ydav1E06Bzf2mQbGZ12kh2fe4ISgLg_UBuM/export?format=csv").openConnection().getInputStream()));
 		String line = "";
-		int counter = 0;
 		while((line = reader.readLine()) != null) {
-			counter++;
 			String[] content = null;
 			try {
 				content = line.split(",");
@@ -146,6 +147,14 @@ public class Util {
 		}
 	}
 	
+	public static Double isDouble(String s) {
+		try {
+			return Double.parseDouble(s);
+		} catch (NumberFormatException ex) {
+			return null;
+		}
+	}
+	
 	public static int[] getInventoryBorder(Inventory inv, boolean omit) {
 		int invSize = inv.getSize();
 		switch (invSize) {
@@ -250,6 +259,48 @@ public class Util {
 			return true;
 		}
 		return false;
+	}
+	
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+		
+		BigDecimal bd = new BigDecimal(Double.toString(value));
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+	
+	public static Long getFromTimeFormat(String input) {
+		long time = Long.parseLong(input.replaceAll("[^0-9]", ""));
+		String timeValue = input.replaceAll("[^A-Za-z]", "").toLowerCase();
+		
+		switch (timeValue) {
+			case "min":
+			case "minute":
+			case "minutes":
+				return TimeUnit.MINUTES.toMillis(time);
+			case "h":
+			case "hour":
+			case "hours":
+				return TimeUnit.HOURS.toMillis(time);
+			case "d":
+			case "day":
+			case "days":
+				return TimeUnit.DAYS.toMillis(time);
+			case "w":
+			case "week":
+			case "weeks":
+				return 7 * TimeUnit.DAYS.toMillis(time);
+			case "mon":
+			case "month":
+			case "months":
+				return 30 * TimeUnit.DAYS.toMillis(time);
+			case "y":
+			case "year":
+			case "years":
+				return 365 * TimeUnit.DAYS.toMillis(time);
+			default:
+				return null;
+		}
 	}
 	
 }

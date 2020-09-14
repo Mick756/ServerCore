@@ -1,4 +1,4 @@
-package net.arcadia.commands.reports;
+package net.arcadia.commands.report;
 
 import lombok.SneakyThrows;
 import net.arcadia.ACommand;

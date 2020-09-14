@@ -1,4 +1,4 @@
-package net.arcadia.listeners;
+package net.arcadia.listeners.menus;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTItem;

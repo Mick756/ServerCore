@@ -106,7 +106,7 @@ public class TagCMD extends ACommand {
 						Arcadian arcadian = Arcadian.get(player);
 						
 						if (args[2].equalsIgnoreCase("clear")) {
-							arcadian.setCustomTag(null);
+							arcadian.setCustomTag("");
 							arcadian.updateNameDisplay();
 							
 							respondf(sender, "&7You have reset %s's custom tag.", player.getName());

@@ -1,4 +1,4 @@
-package net.arcadia.listeners;
+package net.arcadia.listeners.menus;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import net.arcadia.ArcadiaCore;

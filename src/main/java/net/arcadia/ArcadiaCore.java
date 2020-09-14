@@ -7,9 +7,10 @@ import net.arcadia.chat.ChatListener;
 import net.arcadia.chat.Mute;
 import net.arcadia.listeners.CommandListener;
 import net.arcadia.listeners.ConnectionListener;
-import net.arcadia.listeners.GlobalMenuListener;
-import net.arcadia.listeners.MvpMenuEvents;
+import net.arcadia.listeners.menus.GlobalMenuListener;
+import net.arcadia.listeners.menus.MvpMenuEvents;
 import net.arcadia.misc.ArcadianEconomy;
+import net.arcadia.misc.Kit;
 import net.arcadia.misc.PluginMessageManager;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
@@ -19,6 +20,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -45,6 +47,7 @@ public class ArcadiaCore extends JavaPlugin {
 	
 	private static @Getter LuckPerms luckPerms;
 	private static @Getter Economy economy;
+	private static @Getter Permission permission;
 	
 	private static @Getter @Setter Location spawn;
 	
@@ -124,14 +127,22 @@ public class ArcadiaCore extends JavaPlugin {
 		
 		Bukkit.getServicesManager().register(Economy.class, new ArcadianEconomy(), Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Vault")), ServicePriority.Normal);
 		
-		economy = setupVault();
+		setupVault();
 		
-		if (economy == null) {
+		if (economy == null || permission == null) {
 			error("Vault was not properly setup.");
+		} else {
+			info("Vault initialized.");
+			
+			if (!permission.hasGroupSupport()) {
+				error("Group support is not enabled!");
+			}
 		}
-		info("Arcadian Economy initialized.");
 		
 		new Util();
+		
+		int kits = Kit.loadKits();
+		info(String.format("Added %d kits.", kits));
 		
 		World world = Bukkit.getWorld("world");
 		int x = getConfig().getInt("spawn.x");
@@ -164,8 +175,11 @@ public class ArcadiaCore extends JavaPlugin {
 		Mute.closeAndSave();
 		
 		for (Arcadian arcadian : Arcadian.getArcadians().values()) {
-			arcadian.save();
+			arcadian.save(false);
 		}
+		
+		info("Saving all kits.");
+		Kit.closeAndSave();
 		
 		info("Completed. Good-bye!");
 		info("&8********************************************");
@@ -197,12 +211,18 @@ public class ArcadiaCore extends JavaPlugin {
 			playerFolder.mkdir();
 		}
 		
+		File kitFolder = new File(getDataFolder() + "/kits");
+		if (!kitFolder.exists()) {
+			kitFolder.mkdir();
+		}
+		
 		CustomFile[] files = new CustomFile[]{
 				new CustomFile(new File(this.getDataFolder(), "config.yml"), "config.yml"),
 				new CustomFile(new File(this.getDataFolder() + "/lang", "en_us.yml"), "en_us.yml"),
 				new CustomFile(new File(this.getDataFolder(), "mutes.yml"), null),
 				new CustomFile(new File(this.getDataFolder(), "reports.yml"), null),
-				new CustomFile(new File(this.getDataFolder(), "bug_reports.yml"), null)
+				new CustomFile(new File(this.getDataFolder(), "bug_reports.yml"), null),
+				new CustomFile(new File(this.getDataFolder(), "pay_logs.txt"), null)
 		};
 		
 		for (CustomFile cf : files) {
@@ -231,16 +251,23 @@ public class ArcadiaCore extends JavaPlugin {
 		}
 	}
 	
-	private Economy setupVault() {
+	private void setupVault() {
 		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			return null;
+			return;
 		}
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-		if (rsp == null) {
-			return null;
+		
+		RegisteredServiceProvider<Economy> econ = getServer().getServicesManager().getRegistration(Economy.class);
+		if (econ != null) {
+			economy = econ.getProvider();
 		}
-		return rsp.getProvider();
+		
+		RegisteredServiceProvider<Permission> perm = getServer().getServicesManager().getRegistration(Permission.class);
+		if (perm != null) {
+			permission = perm.getProvider();
+		}
 	}
+	
+	
 	
 	private boolean checkForPaper() {
 		String ver = getServer().getVersion();

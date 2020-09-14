@@ -17,18 +17,18 @@ proxy: 127.0.0.1
 ## Tag color configuration
 tags:
   member: '&7[Member]'
-  vip: '&a[VIP]'
+  vip: '&a[VIP]&r'
   mvp: '&b[MVP]'
   moderator: '&2[Moderator]'
   developer: '&c[Developer]'
   builder: '&9[Builder]'
   admin: '&c[Admin]'
-  owner: '&4[Owner]'
+  owner: '&4&l{Owner}&r'
   cdesigner: '&3[CDesigner]'
 
 ## Chat configuration
 chat-format: '%prefix% %name%:&f %message%'
-chat-filter: true
+chat-filter: false
 
 spawn:
   x: 0
@@ -41,27 +41,9 @@ survival-settings:
 
 ## Cooldowns are in seconds
 command-settings:
-  command-spy:
-    enable: true
-  gm:
-    enable: true
   home:
-    enable: true
     cooldown: 45
-  info:
-    enable: true
-  msg:
-    enable: true
-  mute:
-    enable: true
-  mvp:
-    enable: true
-  nick:
-    enable: true
-  ping:
-    enable: true
   random-teleport:
-    enable: true
     bounds:
       x:
         min: -1000
@@ -70,20 +52,9 @@ command-settings:
         min: -1000
         max: 1000
     cooldown: 300
-  reply:
-    enable: true
   bug-report:
-    enable: true
     cooldown: 240
-  report:
-    enable: true
-    cooldown: 240
-  spawn:
-    enable: true
-  tag:
-    enable: true
   tpa:
-    enable: true
     cooldown: 45
 
 ## Link to the shop

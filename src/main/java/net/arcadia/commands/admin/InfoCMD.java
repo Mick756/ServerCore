@@ -72,7 +72,7 @@ public class InfoCMD extends ACommand {
 				String.format("   &3Parent Tag:&7 %s", ArcadiaCore.getInstance().getConfig().getString("tags." + arcadian.getGroup())),
 				String.format("   &3First Join:&7 %s", Util.toReadableTime(arcadian.getFirstJoin())),
 				String.format("   &3Times Muted:&7 %d", arcadian.getTimesMuted()),
-				String.format("   &cHealth:&7 %s", online ? Double.toString(arcadian.getPlayer().getHealth()) : "N/A"),
+				String.format("   &cHealth:&7 %s", online ? Double.toString(Util.round(arcadian.getPlayer().getHealth(), 4)) : "N/A"),
 				String.format("   &cHunger:&7 %s", online ? Double.toString(arcadian.getPlayer().getFoodLevel()) : "N/A"),
 				String.format("   &3Time Played:&7 %s", Util.toReadableTime(arcadian.getTimedPlayed())),
 				String.format("   &3Bank Balance:&7 $%.2f", ArcadiaCore.getEconomy().getBalance(offlinePlayer))

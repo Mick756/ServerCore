@@ -126,25 +126,30 @@ public class MuteCMD extends ACommand {
 						respondf(sender, "&cThe player '&e%s&c' was not found!", args[1]);
 						return;
 					}
+					
 					Mute mute = Mute.playerIsMuted(Arcadian.get(player));
 					if (mute == null) {
 						respond(sender, "&7This player is not currently muted.");
 						return;
 					}
+					
 					respond(sender, "&7This is the player's current mute:");
 					respondfnp(sender, mute.toString());
 					return;
 				}
 				if (args[0].equalsIgnoreCase("delete")) {
 					Integer index = Util.isInt(args[1]);
+					
 					if (index == null) {
 						respondf(sender, "&cThe value '&e%s&c' must be a number!", args[1]);
 						return;
 					}
+					
 					if (Mute.getMutes().size() < index) {
 						respondf(sender, "&cThe index of '&e%s&c' was not found!", args[1]);
 						return;
 					}
+					
 					Mute m = Mute.getMutes().get(index - 1);
 					Mute.getMutes().remove(m);
 					respond(sender, "&7You deleted the following mute: ");
@@ -154,9 +159,9 @@ public class MuteCMD extends ACommand {
 			} else {
 				
 				if (args[0].equalsIgnoreCase("all")) {
-					Long time = Util.isLong(args[1]);
+					Long time = Util.getFromTimeFormat(args[1]);
 					if (time == null) {
-						respondf(sender, "&cThe value '&e%s&c' must be a number!", args[1]);
+						respondf(sender, "&cThe value '&e%s&c' must be a time!", args[1]);
 						return;
 					}
 					AllMute allMute = new AllMute(time, Globals.descriptionFromArgs(2, args));
@@ -167,9 +172,9 @@ public class MuteCMD extends ACommand {
 				}
 				
 				if (args.length >= 4) {
-					Long time = Util.isLong(args[2]);
+					Long time = Util.getFromTimeFormat(args[1]);
 					if (time == null) {
-						respondf(sender, "&cThe value '&e%s&c' must be a number!", args[1]);
+						respondf(sender, "&cThe value '&e%s&c' must be a time!", args[1]);
 						return;
 					}
 					

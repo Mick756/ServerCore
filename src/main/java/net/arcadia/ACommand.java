@@ -1,16 +1,25 @@
 package net.arcadia;
 
 import lombok.Getter;
-import net.arcadia.commands.MvpCMD;
-import net.arcadia.commands.NickCMD;
 import net.arcadia.commands.admin.CommandSpyCMD;
 import net.arcadia.commands.admin.InfoCMD;
 import net.arcadia.commands.admin.MuteCMD;
 import net.arcadia.commands.admin.TagCMD;
-import net.arcadia.commands.gamemode.*;
-import net.arcadia.commands.globals.*;
-import net.arcadia.commands.reports.ReportBugCMD;
-import net.arcadia.commands.reports.ReportCMD;
+import net.arcadia.commands.donor.MvpCMD;
+import net.arcadia.commands.donor.NickCMD;
+import net.arcadia.commands.economy.BalanceCMD;
+import net.arcadia.commands.economy.BalanceEditCMD;
+import net.arcadia.commands.economy.PayCMD;
+import net.arcadia.commands.global.*;
+import net.arcadia.commands.kit.CreateKitCMD;
+import net.arcadia.commands.kit.KitCMD;
+import net.arcadia.commands.permission.PermCMD;
+import net.arcadia.commands.permission.PermListCMD;
+import net.arcadia.commands.player.gamemode.*;
+import net.arcadia.commands.player.health.FeedCMD;
+import net.arcadia.commands.player.health.HealCMD;
+import net.arcadia.commands.report.ReportBugCMD;
+import net.arcadia.commands.report.ReportCMD;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;
@@ -18,8 +27,11 @@ import net.arcadia.util.execptions.IncorrectUsageException;
 import net.arcadia.util.execptions.InvalidGroupException;
 import net.arcadia.util.execptions.PlayerNotOnlineException;
 import net.arcadia.util.execptions.PlayerRequiredException;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,12 +126,41 @@ public abstract class ACommand {
 		addCommand("tag", new TagCMD());
 		addCommand("tpa", new TpaCMD());
 		addCommand("spawn", new SpawnCMD());
+		addCommand("heal", new HealCMD());
+		addCommand("feed", new FeedCMD());
+		addCommand("balance", new BalanceCMD());
+		addCommand("balanceedit", new BalanceEditCMD());
+		addCommand("pay", new PayCMD());
+		addCommand("createkit", new CreateKitCMD());
+		addCommand("kit", new KitCMD());
+		addCommand("permlist", new PermListCMD());
+		addCommand("perm", new PermCMD());
+		
+		for (ACommand command : commands) {
+			String permission = command.permission();
+			if (!permission.equals("")) {
+				Permission perm = new Permission(permission, command.desc());
+				if (Bukkit.getPluginManager().getPermission(perm.getName()) == null) {
+					Bukkit.getPluginManager().addPermission(perm);
+				}
+			}
+		}
+		
 		return commands.size();
 	}
 	
-	private static void addCommand(String path, ACommand command) {
-		boolean enable = ArcadiaCore.getInstance().getConfig().getBoolean("command-settings." + path + ".enable");
-		if (enable) commands.add(command);
+	private static final FileConfiguration config = ArcadiaCore.getInstance().getConfig();
+	private static void addCommand(String p, ACommand command) {
+		String path = "command-settings." + p + ".enable";
+		
+		if (config.isSet(path)) {
+			boolean enable = ArcadiaCore.getInstance().getConfig().getBoolean(path);
+			if (enable) commands.add(command);
+		} else {
+			config.set(path, true);
+			ArcadiaCore.getInstance().saveConfig();
+			commands.add(command);
+		}
 	}
 	
 	private static void addCommand(String path, ACommand... commands) {

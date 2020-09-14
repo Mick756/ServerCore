@@ -1,6 +1,6 @@
 package net.arcadia.commands.prompts;
 
-import net.arcadia.commands.reports.ReportBugCMD;
+import net.arcadia.commands.report.ReportBugCMD;
 import net.arcadia.util.Globals;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.conversations.ConversationContext;

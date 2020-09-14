@@ -3,6 +3,7 @@ package net.arcadia.listeners;
 import net.arcadia.Arcadian;
 import net.arcadia.chat.Mute;
 import net.arcadia.chat.PlayerMute;
+import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,6 +57,13 @@ public class ConnectionListener implements Listener {
 		if (pm != null) {
 			Mute.getAwaitingMutes().remove(player.getUniqueId());
 		}
+		
+		if (!player.isOp() && player.hasPermission("group.mvp")) {
+			event.setJoinMessage(Globals.color(String.format("&6<&c+&6>&b %s&7 has joined the server. &6<&c+&6>", player.getDisplayName())));
+			return;
+		}
+		
+		event.setJoinMessage(Globals.color(String.format("&7%s has joined the server.", player.getName())));
 	}
 	
 	@EventHandler
@@ -63,7 +71,7 @@ public class ConnectionListener implements Listener {
 		Player player = event.getPlayer();
 		Arcadian arcadian = Arcadian.get(player.getUniqueId());
 		
-		arcadian.save();
+		arcadian.save(false);
 		Arcadian.getArcadians().remove(player.getUniqueId());
 	}
 }

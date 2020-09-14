@@ -1,4 +1,4 @@
-package net.arcadia.commands.globals;
+package net.arcadia.commands.global;
 
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,8 +80,10 @@ public class TpaCMD extends ACommand {
 				return;
 			}
 			
+			Player tpaer = Bukkit.getPlayer(tpas.get(player.getUniqueId()));
 			tpas.remove(player.getUniqueId());
 			respond(sender, "&cYou declined the tpa request!");
+			if (tpaer != null && tpaer.isOnline()) respondf(sender, "&e%s&c declined your tpa request!", player.getName());
 		} else {
 			
 			if (waiting.containsKey(uuid)) {
@@ -109,8 +112,21 @@ public class TpaCMD extends ACommand {
 			
 			tpas.put(tpa.getUniqueId(), player.getUniqueId());
 			respondf(sender, "&7You sent a tpa request to&b %s&7.", tpa.getName());
+			respond(sender, "&7This tpa request will expire in&c 10 seconds&7.");
 			respondf(tpa, "&b%s&7 would like to teleport to you.", player.getName());
 			respond(tpa, "&7You can either&b /tpa accept&7 or&b /tpa decline&7.");
+			respond(tpa, "&7This tpa request will expire in&c 10 seconds&7.");
+			
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (tpas.containsKey(tpa.getUniqueId())) {
+						respondf(tpa, "&cThe tpa request to&e %s&c expired!", player.getName());
+					}
+					
+					tpas.remove(tpa.getUniqueId());
+				}
+			}.runTaskLater(ArcadiaCore.getInstance(), 200);
 			
 			waiting.put(uuid, System.currentTimeMillis() + cooldown);
 		}

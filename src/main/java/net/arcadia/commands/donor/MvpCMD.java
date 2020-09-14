@@ -1,4 +1,4 @@
-package net.arcadia.commands;
+package net.arcadia.commands.donor;
 
 import com.cryptomorin.xseries.XSound;
 import net.arcadia.ACommand;
