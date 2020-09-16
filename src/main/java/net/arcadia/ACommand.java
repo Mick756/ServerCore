@@ -142,6 +142,7 @@ public abstract class ACommand {
 		addCommand("deleteshop", new DeleteShopCMD());
 		addCommand("smite", new SmiteCMD());
 		addCommand("tphere", new TpHereCMD());
+		addCommand("serverinfo", new ServerInfoCMD());
 		
 		PluginManager pm = Bukkit.getPluginManager();
 		for (ACommand command : commands) {

@@ -1,6 +1,6 @@
 name: ArcadiaCore
 main: net.arcadia.ArcadiaCore
-version: 0.0.2
+version: 1.1.4
 api-version: 1.13
 author: Kidzyy
 description: The backbone of Arcadia.
@@ -98,3 +98,6 @@ commands:
   tphere:
     description: Teleport a player to yourself.
     aliases: [tph]
+  serverinfo:
+    description: See a list of server statistics.
+    aliases: [sinfo, serveri]
