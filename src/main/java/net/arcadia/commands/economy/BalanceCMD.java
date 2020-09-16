@@ -34,8 +34,6 @@ public class BalanceCMD extends ACommand {
 		
 		String balance = ArcadiaCore.getEconomy().format(arcadian.getBalance());
 		
-		ArcadiaCore.info(balance);
-		
 		respondf(sender, "&7Your current balance is&a %s&7.", balance);
 	}
 }

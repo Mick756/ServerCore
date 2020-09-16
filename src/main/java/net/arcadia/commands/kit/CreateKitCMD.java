@@ -30,7 +30,7 @@ public class CreateKitCMD extends ACommand {
 	
 	@Override
 	public String permission() {
-		return "arcadia.create.kit";
+		return "arcadia.kit.delete";
 	}
 	
 	@Override

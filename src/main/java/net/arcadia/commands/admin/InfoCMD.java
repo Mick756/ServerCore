@@ -3,6 +3,7 @@ package net.arcadia.commands.admin;
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
 import net.arcadia.Arcadian;
+import net.arcadia.misc.Home;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
 import org.bukkit.Bukkit;
@@ -62,12 +63,13 @@ public class InfoCMD extends ACommand {
 		Arcadian arcadian = Arcadian.get(uuid);
 		OfflinePlayer offlinePlayer = arcadian.getOfflinePlayer();
 		
-		boolean online = arcadian.getPlayer() != null;
+		boolean online = offlinePlayer.isOnline();
 		List<String> infoMessage = Arrays.stream(new String[]{
 				"&3&lPlayer Info:",
 				"&7Some info may be hidden if the player is not online.",
 				"&3Info available offline&7 -&c Info available online",
 				String.format("   &3Name:&7 %s", offlinePlayer.getName()),
+				String.format("   &3UUID:&7 %s", offlinePlayer.getUniqueId().toString()),
 				String.format("   &3Current Tag:&7 %s", arcadian.getCurrentlyShownTag()),
 				String.format("   &3Parent Tag:&7 %s", ArcadiaCore.getInstance().getConfig().getString("tags." + arcadian.getGroup())),
 				String.format("   &3First Join:&7 %s", Util.toReadableTime(arcadian.getFirstJoin())),
@@ -75,10 +77,17 @@ public class InfoCMD extends ACommand {
 				String.format("   &cHealth:&7 %s", online ? Double.toString(Util.round(arcadian.getPlayer().getHealth(), 4)) : "N/A"),
 				String.format("   &cHunger:&7 %s", online ? Double.toString(arcadian.getPlayer().getFoodLevel()) : "N/A"),
 				String.format("   &3Time Played:&7 %s", Util.toReadableTime(arcadian.getTimedPlayed())),
-				String.format("   &3Bank Balance:&7 $%.2f", ArcadiaCore.getEconomy().getBalance(offlinePlayer))
+				String.format("   &3Current Nickname:&7 %s", arcadian.getNick()),
+				String.format("   &cPing:&7 %s", online ? Integer.toString(arcadian.getPlayer().spigot().getPing()) : "N/A"),
+				String.format("   &3Bank Balance:&7 $%.2f", ArcadiaCore.getEconomy().getBalance(offlinePlayer)),
+				"   &3Homes:",
 				
 		}).map(Globals::color).collect(Collectors.toList());
 		
 		sender.sendMessage(infoMessage.stream().toArray(String[]::new));
+		
+		for (Home home : arcadian.getHomes()) {
+			respondnp(sender, home.toString());
+		}
 	}
 }

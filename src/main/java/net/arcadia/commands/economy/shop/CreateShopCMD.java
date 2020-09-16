@@ -1,18 +1,11 @@
 package net.arcadia.commands.economy.shop;
 
-import lombok.Getter;
 import net.arcadia.ACommand;
 import net.arcadia.util.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class CreateShopCMD extends ACommand {
-	
-	private static @Getter Map<UUID, Double> creatingShop = new HashMap();
 	
 	@Override
 	public String alias() {
@@ -40,12 +33,12 @@ public class CreateShopCMD extends ACommand {
 		validateArgsLength(args, 1);
 		
 		if (args[0].equalsIgnoreCase("cancel")) {
-			if (!creatingShop.containsKey(player.getUniqueId())) {
+			if (!getCreatingShop().containsKey(player.getUniqueId())) {
 				respond(sender, "&cYou are not currently creating a shop.");
 				return;
 			}
 			
-			creatingShop.remove(player.getUniqueId());
+			getCreatingShop().remove(player.getUniqueId());
 			respond(sender, "&7You have cancelled the shop you were creating.");
 			return;
 		}
@@ -60,7 +53,7 @@ public class CreateShopCMD extends ACommand {
 		respond(sender, "&4NOTES:");
 		respond(sender, "&c - A shop will automatically detect if its a tool and only allow selling/buying one item at a time.");
 		respond(sender, "&c - A shop will automatically detect the stack size of a non-tool and allow selling/buying accordingly.");
-		creatingShop.put(player.getUniqueId(), price);
+		getCreatingShop().put(player.getUniqueId(), price);
 		
 	}
 }

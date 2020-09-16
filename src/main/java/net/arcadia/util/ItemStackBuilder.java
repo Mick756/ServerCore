@@ -28,6 +28,10 @@ public class ItemStackBuilder {
 		this.meta = stack.getItemMeta();
 	}
 	
+	public ItemStackBuilder(ItemStack stack) {
+		this.stack = stack;
+	}
+	
 	public ItemStackBuilder(XMaterial material) {
 		this(material.parseMaterial());
 	}
@@ -154,6 +158,11 @@ public class ItemStackBuilder {
 		
 		this.stack.setItemMeta(meta);
 		return this.stack;
+	}
+	
+	public ItemStackBuilder clearItemMeta() {
+		this.stack.setItemMeta(new ItemStack(this.stack.getType()).getItemMeta());
+		return this;
 	}
 	
 	public ItemStackBuilder setMeta() {

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class WorldMute extends Mute {
@@ -57,7 +56,7 @@ public class WorldMute extends Mute {
 	
 	@Override
 	public void setEndTime() {
-		this.endAt = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(this.duration);
+		this.endAt = System.currentTimeMillis() + this.duration;
 	}
 	
 	@Override

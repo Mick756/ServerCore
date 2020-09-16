@@ -24,6 +24,8 @@ public class Kit {
 	private final @Getter long cooldown;
 	private final @Getter ItemStack[] items;
 	
+	private final @Getter String permission;
+	
 	private final File file;
 	private final @Getter YamlConfiguration config;
 	
@@ -41,6 +43,8 @@ public class Kit {
 		}
 		
 		this.config = YamlConfiguration.loadConfiguration(this.file);
+		
+		this.permission = "arcadia.kit." + this.name;
 		
 		this.cooldowns = new HashMap<>();
 	}
@@ -60,6 +64,8 @@ public class Kit {
 	public void give(Player player) {
 		Arcadian arcadian = Arcadian.get(player);
 		Long timeLeft = this.cooldowns.get(player.getUniqueId());
+		
+		if (player.hasPermission("arcadia.kit."))
 		
 		if (timeLeft != null) {
 			timeLeft = timeLeft - System.currentTimeMillis();

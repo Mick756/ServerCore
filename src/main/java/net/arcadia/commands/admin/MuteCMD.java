@@ -145,7 +145,7 @@ public class MuteCMD extends ACommand {
 						return;
 					}
 					
-					if (Mute.getMutes().size() < index) {
+					if (Mute.getMutes().size() < index || index == 0) {
 						respondf(sender, "&cThe index of '&e%s&c' was not found!", args[1]);
 						return;
 					}
@@ -172,9 +172,9 @@ public class MuteCMD extends ACommand {
 				}
 				
 				if (args.length >= 4) {
-					Long time = Util.getFromTimeFormat(args[1]);
+					Long time = Util.getFromTimeFormat(args[2]);
 					if (time == null) {
-						respondf(sender, "&cThe value '&e%s&c' must be a time!", args[1]);
+						respondf(sender, "&cThe value '&e%s&c' must be a time!", args[2]);
 						return;
 					}
 					

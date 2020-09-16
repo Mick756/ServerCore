@@ -7,8 +7,11 @@ import net.arcadia.chat.ChatListener;
 import net.arcadia.chat.Mute;
 import net.arcadia.listeners.CommandListener;
 import net.arcadia.listeners.ConnectionListener;
+import net.arcadia.listeners.kills.EconomyKillListener;
 import net.arcadia.listeners.menus.GlobalMenuListener;
 import net.arcadia.listeners.menus.MvpMenuEvents;
+import net.arcadia.listeners.menus.ShopMenuListener;
+import net.arcadia.listeners.shop.ShopListener;
 import net.arcadia.misc.ArcadianEconomy;
 import net.arcadia.misc.Kit;
 import net.arcadia.misc.PluginMessageManager;
@@ -119,7 +122,8 @@ public class ArcadiaCore extends JavaPlugin {
 		info(String.format("Registered %d commands.", commands));
 		
 		registerListeners(new ChatListener(), new ConnectionListener(), new CommandListener(),
-				new GlobalMenuListener(), new MvpMenuEvents());
+				new GlobalMenuListener(), new MvpMenuEvents(), new ShopListener(),
+				new ShopMenuListener(), new EconomyKillListener());
 		info("Registered all plugin listeners");
 		
 		Mute.loadMutes();
@@ -266,8 +270,6 @@ public class ArcadiaCore extends JavaPlugin {
 			permission = perm.getProvider();
 		}
 	}
-	
-	
 	
 	private boolean checkForPaper() {
 		String ver = getServer().getVersion();

@@ -78,9 +78,8 @@ public class Arcadian extends OfflineArcadian {
 	
 	public void updateFirstJoin() {
 		if (this.firstJoin != null) return;
-		Date now = new Date();
 		
-		this.firstJoin = now;
+		this.firstJoin = new Date();
 	}
 	
 	public void triggerFirstJoin() {
@@ -191,6 +190,38 @@ public class Arcadian extends OfflineArcadian {
 		}
 		
 		return emptySlots;
+	}
+	
+	public boolean contains(ItemStack stack, int amount) {
+		ItemStack[] items = this.player.getInventory().getContents();
+		if (items.length > 0 && amount > 0) {
+			int found = 0;
+			for (ItemStack item : items) {
+				if (found >= amount) break;
+				if (item != null && item.isSimilar(stack)) {
+					found += item.getAmount();
+				}
+			}
+			
+			return (found >= amount);
+		}
+		return false;
+	}
+	
+	public void remove(ItemStack stack, int amount) {
+		ItemStack[] items = this.player.getInventory().getContents();
+		if (items.length > 0 && amount > 0) {
+			int removed = 0;
+			for (ItemStack item : items) {
+				if (item != null && item.isSimilar(stack)) {
+					
+					item.subtract(amount);
+					removed += amount;
+					
+				}
+				if (removed >= amount) break;
+			}
+		}
 	}
 	
 	@SneakyThrows

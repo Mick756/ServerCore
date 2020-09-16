@@ -50,7 +50,7 @@ public class AllMute extends Mute {
 	
 	@Override
 	public void setEndTime() {
-		this.endAt = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(this.duration);
+		this.endAt = System.currentTimeMillis() + this.duration;
 	}
 	
 	@Override

@@ -36,9 +36,9 @@ public class Util {
 	@SneakyThrows
 	private static void loadBadWords() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("https://docs.google.com/spreadsheets/d/1hIEi2YG3ydav1E06Bzf2mQbGZ12kh2fe4ISgLg_UBuM/export?format=csv").openConnection().getInputStream()));
-		String line = "";
+		String line;
 		while((line = reader.readLine()) != null) {
-			String[] content = null;
+			String[] content;
 			try {
 				content = line.split(",");
 				if(content.length == 0) {
@@ -194,14 +194,24 @@ public class Util {
 	}
 	
 	public static String toReadableList(Collection<String> collection) {
-		return Arrays.toString(collection.toArray());
+		char[] array = Arrays.toString(collection.toArray()).toCharArray();
+		
+		array[0] = ' ';
+		array[array.length - 1] = ' ';
+		
+		return new String(array);
 	}
 	
 	public static String toReadableTime(long time) {
-		int seconds = (int) (time / 1000) % 60;
-		int minutes = (int) (time / (1000 * 60)) % 60;
-		int hours = (int) (time / (1000 * 60 * 60)) % 24;
-		return String.format("%dh %dm %ds", hours, minutes, seconds);
+		int seconds = (int)  (time / 1000);
+		String s = seconds == 0 ? "" : (seconds % 60) + "s";
+		int minutes = (seconds / 60);
+		String m = minutes == 0 ? "" : (minutes % 60) + "m";
+		int hours = (minutes / 60);
+		String h = hours == 0 ? "" : (hours % 24) + "h";
+		int days = (hours / 24);
+		String d = days == 0 ? "" : days + "d";
+		return String.format("%s %s %s %s", d, h, m, s).trim();
 	}
 	
 	public static String toReadableTime(Date date) {
@@ -237,8 +247,8 @@ public class Util {
 					String[] ignoreCheck = words.get(wordToCheck);
 					boolean ignore = false;
 					
-					for(int s = 0; s < ignoreCheck.length; s++ ) {
-						if(input.contains(ignoreCheck[s])) {
+					for (String value : ignoreCheck) {
+						if (input.contains(value)) {
 							ignore = true;
 							break;
 						}
@@ -255,10 +265,7 @@ public class Util {
 	
 	public static boolean filterText(String input) {
 		ArrayList<String> badWords = badWordsFound(input);
-		if (badWords.size() > 0) {
-			return true;
-		}
-		return false;
+		return badWords.size() > 0;
 	}
 	
 	public static double round(double value, int places) {
@@ -273,7 +280,13 @@ public class Util {
 		long time = Long.parseLong(input.replaceAll("[^0-9]", ""));
 		String timeValue = input.replaceAll("[^A-Za-z]", "").toLowerCase();
 		
+		ArcadiaCore.info(time + " - " + timeValue);
+		
 		switch (timeValue) {
+			case "sec":
+			case "second":
+			case "seconds":
+				return TimeUnit.SECONDS.toMillis(time);
 			case "min":
 			case "minute":
 			case "minutes":

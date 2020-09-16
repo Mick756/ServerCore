@@ -54,6 +54,7 @@ commands:
     description: Teleport or set the global spawn.
   gm:
     description: Change your gamemode.
+    aliases: [gamemode]
   gma:
     description: Change your gamemode to adventure.
   gmc:
@@ -76,9 +77,24 @@ commands:
     description: Pay a player.
   createkit:
     description: Create a kit.
+    aliases: [addkit, makekit]
+  deletekit:
+    description: Delete a kit.
+    aliases: [delkit, remkit]
   kit:
     description: List or select a it.
   permlist:
     description: List permissions of a certain group.
   perm:
     description: Modify permissions of a group.
+  createshop:
+    description: Create a shop.
+    aliases: [mkshop, cshop]
+  deleteshop:
+    description: Delete a shop.
+    aliases: [delshop, dshop]
+  smite:
+    description: Smite a player.
+  tphere:
+    description: Teleport a player to yourself.
+    aliases: [tph]

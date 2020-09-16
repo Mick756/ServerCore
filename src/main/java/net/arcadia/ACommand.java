@@ -1,17 +1,17 @@
 package net.arcadia;
 
 import lombok.Getter;
-import net.arcadia.commands.admin.CommandSpyCMD;
-import net.arcadia.commands.admin.InfoCMD;
-import net.arcadia.commands.admin.MuteCMD;
-import net.arcadia.commands.admin.TagCMD;
+import net.arcadia.commands.admin.*;
 import net.arcadia.commands.donor.MvpCMD;
 import net.arcadia.commands.donor.NickCMD;
 import net.arcadia.commands.economy.BalanceCMD;
 import net.arcadia.commands.economy.BalanceEditCMD;
 import net.arcadia.commands.economy.PayCMD;
+import net.arcadia.commands.economy.shop.CreateShopCMD;
+import net.arcadia.commands.economy.shop.DeleteShopCMD;
 import net.arcadia.commands.global.*;
 import net.arcadia.commands.kit.CreateKitCMD;
+import net.arcadia.commands.kit.DeleteKitCMD;
 import net.arcadia.commands.kit.KitCMD;
 import net.arcadia.commands.permission.PermCMD;
 import net.arcadia.commands.permission.PermListCMD;
@@ -32,14 +32,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 // Credit to drew6017 modified by Kidzyy
 public abstract class ACommand {
 	
 	private static final @Getter List<ACommand> commands = new ArrayList<>();
+	private static final @Getter Map<UUID, Double> creatingShop = new HashMap<>();
+	private static final @Getter List<UUID> deletingShop = new ArrayList<>();
 	
 	public static void respondnp(CommandSender sender, String msg) {
 		sender.sendMessage(Globals.color(msg));
@@ -87,7 +89,7 @@ public abstract class ACommand {
 	}
 	
 	public void respondiu(CommandSender sender, String label) {
-		respondf(sender, "&cIncorrect usage. Correct usage: /%s %s\n ", label, usage());
+		respondf(sender, "&cIncorrect usage. Correct usage: /%s %s ", label, usage());
 	}
 	
 	public void call(CommandSender sender, String label, String[] args) {
@@ -132,16 +134,22 @@ public abstract class ACommand {
 		addCommand("balanceedit", new BalanceEditCMD());
 		addCommand("pay", new PayCMD());
 		addCommand("createkit", new CreateKitCMD());
+		addCommand("deletekit", new DeleteKitCMD());
 		addCommand("kit", new KitCMD());
 		addCommand("permlist", new PermListCMD());
 		addCommand("perm", new PermCMD());
+		addCommand("createshop", new CreateShopCMD());
+		addCommand("deleteshop", new DeleteShopCMD());
+		addCommand("smite", new SmiteCMD());
+		addCommand("tphere", new TpHereCMD());
 		
+		PluginManager pm = Bukkit.getPluginManager();
 		for (ACommand command : commands) {
 			String permission = command.permission();
 			if (!permission.equals("")) {
 				Permission perm = new Permission(permission, command.desc());
-				if (Bukkit.getPluginManager().getPermission(perm.getName()) == null) {
-					Bukkit.getPluginManager().addPermission(perm);
+				if (pm.getPermission(perm.getName()) == null) {
+					pm.addPermission(perm);
 				}
 			}
 		}
