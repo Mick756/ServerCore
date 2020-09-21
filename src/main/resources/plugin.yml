@@ -34,6 +34,9 @@ commands:
   mvp:
     description: Open up the MVP comsetic menu.
     aliases: [mvpmenu, cosmmvp]
+  vip:
+    description: Open up the VIP comsetic menu.
+    aliases: [vipmenu, cosmvip]
   msg:
     description: Message a player.
     aliases: [message]
@@ -101,3 +104,6 @@ commands:
   serverinfo:
     description: See a list of server statistics.
     aliases: [sinfo, serveri]
+  firework:
+    description: Launch a random firework!
+    aliases: [fw, firew, fwork]

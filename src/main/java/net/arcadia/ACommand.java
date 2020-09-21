@@ -2,8 +2,10 @@ package net.arcadia;
 
 import lombok.Getter;
 import net.arcadia.commands.admin.*;
+import net.arcadia.commands.donor.FireworkCMD;
 import net.arcadia.commands.donor.MvpCMD;
 import net.arcadia.commands.donor.NickCMD;
+import net.arcadia.commands.donor.VipCMD;
 import net.arcadia.commands.economy.BalanceCMD;
 import net.arcadia.commands.economy.BalanceEditCMD;
 import net.arcadia.commands.economy.PayCMD;
@@ -81,7 +83,7 @@ public abstract class ACommand {
 	public abstract void execute(CommandSender sender, String label, String[] args);
 	
 	protected boolean matchesAlias(String a) {
-		return alias().equals(a);
+		return alias().equalsIgnoreCase(a);
 	}
 	
 	public boolean hasPerm(CommandSender sender) {
@@ -119,6 +121,7 @@ public abstract class ACommand {
 		addCommand("msg", new MsgCMD());
 		addCommand("mute", new MuteCMD());
 		addCommand("mvp", new MvpCMD());
+		addCommand("vip", new VipCMD());
 		addCommand("nick", new NickCMD());
 		addCommand("ping", new PingCMD());
 		addCommand("random-teleport", new RandomTeleportCMD());
@@ -143,15 +146,13 @@ public abstract class ACommand {
 		addCommand("smite", new SmiteCMD());
 		addCommand("tphere", new TpHereCMD());
 		addCommand("serverinfo", new ServerInfoCMD());
+		addCommand("firework", new FireworkCMD());
 		
 		PluginManager pm = Bukkit.getPluginManager();
 		for (ACommand command : commands) {
 			String permission = command.permission();
-			if (!permission.equals("")) {
-				Permission perm = new Permission(permission, command.desc());
-				if (pm.getPermission(perm.getName()) == null) {
-					pm.addPermission(perm);
-				}
+			if (!permission.equals("") && pm.getPermission(permission) == null) {
+				pm.addPermission(new Permission(permission, command.desc()));
 			}
 		}
 		

@@ -47,7 +47,7 @@ public class Transaction {
 			boolean containsAll = false;
 			for (ItemStack stack : this.items) {
 				if (stack != null) {
-					containsAll = arcadian.contains(stack, stack.getAmount());
+					containsAll = arcadian.inventoryContains(stack, stack.getAmount());
 				}
 			}
 			
@@ -60,7 +60,7 @@ public class Transaction {
 				
 				for (ItemStack stack : this.items) {
 					if (stack != null) {
-						arcadian.remove(stack, stack.getAmount());
+						arcadian.inventoryRemove(stack, stack.getAmount());
 					}
 				}
 				return new TransactionResponse(TransactionResult.SUCCESS, "&7Transaction was successfully completed. You sold your items for&a $%.2f&7.", this.price);

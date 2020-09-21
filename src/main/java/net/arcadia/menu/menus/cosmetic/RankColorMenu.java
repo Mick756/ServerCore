@@ -1,9 +1,10 @@
-package net.arcadia.menu.menus;
+package net.arcadia.menu.menus.cosmetic;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import net.arcadia.menu.ArcadiaMenu;
+import net.arcadia.menu.menus.rank.MvpMenu;
 import net.arcadia.util.Globals;
 import net.arcadia.util.ItemStackBuilder;
 import org.bukkit.ChatColor;

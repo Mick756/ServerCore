@@ -4,14 +4,14 @@ import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import lombok.SneakyThrows;
 import net.arcadia.ArcadiaCore;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.Vector;
 
@@ -280,8 +280,6 @@ public class Util {
 		long time = Long.parseLong(input.replaceAll("[^0-9]", ""));
 		String timeValue = input.replaceAll("[^A-Za-z]", "").toLowerCase();
 		
-		ArcadiaCore.info(time + " - " + timeValue);
-		
 		switch (timeValue) {
 			case "sec":
 			case "second":
@@ -314,6 +312,84 @@ public class Util {
 			default:
 				return null;
 		}
+	}
+	
+	public static void shootRandomFirework(Player player) {
+		FireworkEffect.Type type;
+		Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+		FireworkMeta fm = firework.getFireworkMeta();
+		
+		Random r = new Random();
+		int fType = r.nextInt(5) + 1;
+		switch (fType) {
+			default:
+				type = FireworkEffect.Type.BALL;
+				break;
+			case 2:
+				type = FireworkEffect.Type.BALL_LARGE;
+				break;
+			case 3:
+				type = FireworkEffect.Type.BURST;
+				break;
+			case 4:
+				type = FireworkEffect.Type.CREEPER;
+				break;
+			case 5:
+				type = FireworkEffect.Type.STAR;
+				break;
+		}
+		
+		int c1i = r.nextInt(16) + 1;
+		int c2i = r.nextInt(16) + 1;
+		Color c1 = getColor(c1i);
+		Color c2 = getColor(c2i);
+		
+		FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build();
+		int power = r.nextInt(2) + 1;
+		
+		fm.addEffect(effect);
+		fm.setPower(power);
+		firework.setFireworkMeta(fm);
+	}
+	
+	public static Color getColor(int c) {
+		switch (c) {
+			default:
+				return Color.AQUA;
+			case 2:
+				return Color.BLACK;
+			case 3:
+				return Color.BLUE;
+			case 4:
+				return Color.FUCHSIA;
+			case 5:
+				return Color.GRAY;
+			case 6:
+				return Color.GREEN;
+			case 7:
+				return Color.LIME;
+			case 8:
+				return Color.MAROON;
+			case 9:
+				return Color.NAVY;
+			case 10:
+				return Color.OLIVE;
+			case 11:
+				return Color.ORANGE;
+			case 12:
+				return Color.PURPLE;
+			case 13:
+				return Color.RED;
+			case 14:
+				return Color.SILVER;
+			case 15:
+				return Color.TEAL;
+			case 16:
+				return Color.WHITE;
+			case 17:
+				break;
+		}
+		return Color.YELLOW;
 	}
 	
 }

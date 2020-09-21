@@ -44,8 +44,13 @@ public class PermListCMD extends ACommand {
 			net.milkbowl.vault.permission.Permission vaultPerm = ArcadiaCore.getPermission();
 			List<String> perms = new ArrayList<>();
 			
+			if (group.equalsIgnoreCase("owner")) {
+				respond(sender, "&7Permissions for the group " + group + "\n&cAll permissions");
+				return;
+			}
+			
 			for (String perm : Bukkit.getPluginManager().getPermissions().stream().map(Permission::getName).toArray(String[]::new)) {
-				if (vaultPerm.groupHas("world", group, perm)) {
+				if (vaultPerm.groupHas((String) null, group, perm)) {
 					perms.add(perm);
 				}
 			}

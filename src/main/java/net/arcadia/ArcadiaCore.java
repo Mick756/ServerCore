@@ -29,6 +29,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -67,8 +68,9 @@ public class ArcadiaCore extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		
 		if (checkForPaper()) {
-			error("Paper is required to run this version of ArcadiaCore.");
+			error("Paper is required to run this version of ArcadiaCore. The plugin will now disable...");
 			onDisable();
 			return;
 		}
@@ -197,6 +199,38 @@ public class ArcadiaCore extends JavaPlugin {
 	
 	public void updateUserGroups() {
 		userGroups = getConfig().getConfigurationSection("tags").getKeys(false).stream().map(String::toLowerCase).collect(Collectors.toList());
+	}
+	
+	public static String getStringOrDefault(String path, String def, boolean setIfNot) {
+		String found = def;
+		
+		FileConfiguration config = instance.getConfig();
+		if (config.isSet(path)) {
+			found = config.getString(path);
+		} else {
+			if (setIfNot) {
+				config.set(path, def);
+				instance.saveConfig();
+			}
+		}
+		
+		return found;
+	}
+	
+	public static Boolean getBooleanOrDefault(String path, boolean def, boolean setIfNot) {
+		boolean found = def;
+		
+		FileConfiguration config = instance.getConfig();
+		if (config.isSet(path)) {
+			found = config.getBoolean(path);
+		} else {
+			if (setIfNot) {
+				config.set(path, def);
+				instance.saveConfig();
+			}
+		}
+		
+		return found;
 	}
 	
 	@SneakyThrows

@@ -35,7 +35,6 @@ public class EconomyKillListener implements Listener {
 			case MAGMA_CUBE:
 				return 6.0d;
 			
-			case SLIME:
 			case DROWNED:
 			case CREEPER:
 				return 7.0d;
@@ -46,14 +45,13 @@ public class EconomyKillListener implements Listener {
 			case PILLAGER:
 			case ZOMBIFIED_PIGLIN:
 			case PHANTOM:
-				return 50.0d;
-			
+			case ENDERMAN:
 			case GHAST:
 			case RAVAGER:
 			case BLAZE:
 			case ZOMBIE_VILLAGER:
 			case WITHER_SKELETON:
-				return 75.0d;
+				return 50.0d;
 				
 			case SHULKER:
 			case PIGLIN_BRUTE:
@@ -63,7 +61,6 @@ public class EconomyKillListener implements Listener {
 			case HOGLIN:
 			case VINDICATOR:
 			case GUARDIAN:
-			case ENDERMAN:
 			case VEX:
 			case PIGLIN:
 				return 150.0d;

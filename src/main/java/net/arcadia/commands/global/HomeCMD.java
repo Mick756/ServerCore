@@ -5,8 +5,10 @@ import net.arcadia.ArcadiaCore;
 import net.arcadia.Arcadian;
 import net.arcadia.misc.Home;
 import net.arcadia.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.HashMap;
@@ -23,6 +25,10 @@ public class HomeCMD extends ACommand {
 	public HomeCMD() {
 		
 		cooldown = TimeUnit.SECONDS.toMillis(ArcadiaCore.getInstance().getConfig().getLong("command-settings.tpa.cooldown"));
+		
+		for (int i = 1; i < 25; i++) {
+			Bukkit.getPluginManager().addPermission(new Permission("arcadia.home." + i));
+		}
 		
 	}
 	

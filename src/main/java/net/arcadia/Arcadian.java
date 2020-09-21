@@ -192,7 +192,7 @@ public class Arcadian extends OfflineArcadian {
 		return emptySlots;
 	}
 	
-	public boolean contains(ItemStack stack, int amount) {
+	public boolean inventoryContains(ItemStack stack, int amount) {
 		ItemStack[] items = this.player.getInventory().getContents();
 		if (items.length > 0 && amount > 0) {
 			int found = 0;
@@ -208,7 +208,7 @@ public class Arcadian extends OfflineArcadian {
 		return false;
 	}
 	
-	public void remove(ItemStack stack, int amount) {
+	public void inventoryRemove(ItemStack stack, int amount) {
 		ItemStack[] items = this.player.getInventory().getContents();
 		if (items.length > 0 && amount > 0) {
 			int removed = 0;
@@ -227,9 +227,18 @@ public class Arcadian extends OfflineArcadian {
 	@SneakyThrows
 	public void loadFromFile() {
 		this.customTag = this.config.getString("ctag");
+		if (this.customTag == null) {
+			this.customTag = "";
+		}
 		this.group = this.config.getString("group");
+		if (this.group == null) {
+			this.group = "member";
+		}
 		this.receivingMessages = this.config.getBoolean("messages");
 		this.nick = this.config.getString("nick");
+		if (this.nick == null) {
+			this.nick = "";
+		}
 		this.timesMuted = this.config.getInt("history.mutes");
 		long first = config.getLong("first-join");
 		this.firstJoin = first == 0L ? new Date() : new Date(first);

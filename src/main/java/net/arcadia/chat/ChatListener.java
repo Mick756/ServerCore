@@ -5,7 +5,6 @@ import net.arcadia.Arcadian;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,15 +13,15 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class ChatListener implements Listener {
 	
 	private static String chatFormat;
-	private boolean filter;
+	private final boolean filter;
 	
 	public ChatListener() {
-		FileConfiguration configuration = ArcadiaCore.getInstance().getConfig();
 		
-		chatFormat = configuration.getString("chat-format")
+		chatFormat = ArcadiaCore.getStringOrDefault("chat-format", "%prefix% %name%:&f %message%", true)
 				.replace("%name%", "%s")
 				.replace("%message%", "%s");
-		filter = configuration.getBoolean("chat-filter");
+		
+		filter = ArcadiaCore.getBooleanOrDefault("chat-filter", false, true);
 	}
 	
 	@EventHandler

@@ -7,10 +7,12 @@ import net.arcadia.ArcadiaCore;
 import net.arcadia.Arcadian;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 
 import java.io.File;
 import java.util.*;
@@ -47,10 +49,13 @@ public class Kit {
 		this.permission = "arcadia.kit." + this.name;
 		
 		this.cooldowns = new HashMap<>();
+		
+		Bukkit.getPluginManager().addPermission(new Permission(this.permission));
 	}
 	
 	@SneakyThrows
 	public void save() {
+		
 		this.config.set("items", Arrays.asList(this.items));
 		this.config.set("cooldown", cooldown);
 		
