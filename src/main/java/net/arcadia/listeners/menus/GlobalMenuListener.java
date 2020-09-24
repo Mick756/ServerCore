@@ -3,9 +3,7 @@ package net.arcadia.listeners.menus;
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.SneakyThrows;
-import net.arcadia.ArcadiaCore;
 import net.arcadia.menu.ArcadiaMenu;
-import net.arcadia.util.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,12 +48,7 @@ public class GlobalMenuListener implements Listener {
 					Constructor con = clazz.getConstructor(Player.class);
 					ArcadiaMenu menu = (ArcadiaMenu) con.newInstance(player);
 					
-					if (player.hasPermission(menu.getPermission())) {
-						player.openInventory(menu.inventory());
-						return;
-					}
-					
-					player.sendMessage(ArcadiaCore.getPrefix() + Lang.getMessage("no-permission"));
+					player.openInventory(menu.inventory());
 				}
  			}
 			

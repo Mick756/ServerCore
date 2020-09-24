@@ -11,8 +11,6 @@ public abstract class ArcadiaMenu {
 	
 	public abstract Inventory inventory();
 	
-	public abstract String getPermission();
-	
 	protected Inventory createInventory(int size) {
 		return Bukkit.createInventory(null, size, this.title());
 	}

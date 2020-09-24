@@ -7,6 +7,7 @@ import net.arcadia.chat.ChatListener;
 import net.arcadia.chat.Mute;
 import net.arcadia.listeners.CommandListener;
 import net.arcadia.listeners.ConnectionListener;
+import net.arcadia.listeners.item.UseCustomItemListener;
 import net.arcadia.listeners.kills.EconomyKillListener;
 import net.arcadia.listeners.menus.GlobalMenuListener;
 import net.arcadia.listeners.menus.MvpMenuEvents;
@@ -15,6 +16,8 @@ import net.arcadia.listeners.shop.ShopListener;
 import net.arcadia.misc.ArcadianEconomy;
 import net.arcadia.misc.Kit;
 import net.arcadia.misc.PluginMessageManager;
+import net.arcadia.survival.items.CustomItem;
+import net.arcadia.survival.items.EnderPearlGun;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
 import net.arcadia.util.Util;
@@ -125,7 +128,7 @@ public class ArcadiaCore extends JavaPlugin {
 		
 		registerListeners(new ChatListener(), new ConnectionListener(), new CommandListener(),
 				new GlobalMenuListener(), new MvpMenuEvents(), new ShopListener(),
-				new ShopMenuListener(), new EconomyKillListener());
+				new ShopMenuListener(), new EconomyKillListener(), new UseCustomItemListener());
 		info("Registered all plugin listeners");
 		
 		Mute.loadMutes();
@@ -149,6 +152,9 @@ public class ArcadiaCore extends JavaPlugin {
 		
 		int kits = Kit.loadKits();
 		info(String.format("Added %d kits.", kits));
+		
+		int customItems = addCustomItems();
+		info(String.format("Added %d custom items.", customItems));
 		
 		World world = Bukkit.getWorld("world");
 		int x = getConfig().getInt("spawn.x");
@@ -231,6 +237,13 @@ public class ArcadiaCore extends JavaPlugin {
 		}
 		
 		return found;
+	}
+	
+	public static int addCustomItems() {
+		
+		CustomItem.customItems.put(new String[]{"Ender Pearl Gun", "endergun", "enderpearlgun", "epg"}, new EnderPearlGun());
+		
+		return CustomItem.customItems.size();
 	}
 	
 	@SneakyThrows

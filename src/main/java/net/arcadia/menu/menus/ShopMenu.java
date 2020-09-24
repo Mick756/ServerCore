@@ -5,6 +5,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import net.arcadia.menu.ArcadiaMenu;
 import net.arcadia.misc.ShopFrameItem;
+import net.arcadia.survival.items.CustomItem;
 import net.arcadia.util.Globals;
 import net.arcadia.util.ItemStackBuilder;
 import org.bukkit.entity.Player;
@@ -15,18 +16,38 @@ public class ShopMenu extends ArcadiaMenu {
 	
 	public static String NAME = Globals.color("&0Buy some items!");
 	
-	private @Getter Player player;
-	private @Getter ShopFrameItem item;
-	private @Getter double price;
+	private final @Getter Player player;
+	private final @Getter ShopFrameItem item;
+	private final @Getter double price;
+	private @Getter boolean customItem = false;
 	
-	private int[] amountsToBuy;
+	private final int[] amountsToBuy;
 	
 	public ShopMenu(Player player, ShopFrameItem item, double price) {
 		this.player = player;
 		this.item = item;
 		this.price = price;
 		
-		switch (this.item.getItem().getMaxStackSize()) {
+		NBTItem nbt = new NBTItem(this.item.getItem());
+		
+		int maxStackSize;
+		
+		String customItemId = nbt.getString("ci");
+		if (customItemId != null) {
+			customItem = true;
+			
+			CustomItem cItem = CustomItem.getCustomItem(customItemId);
+			if (cItem != null) {
+				maxStackSize = cItem.maxStackSize();
+			} else {
+				maxStackSize = 1;
+			}
+			
+		} else {
+			maxStackSize = this.item.getItem().getMaxStackSize();
+		}
+		
+		switch (maxStackSize) {
 			case 64:
 				amountsToBuy = new int[]{1, 32, 64};
 				break;
@@ -43,7 +64,6 @@ public class ShopMenu extends ArcadiaMenu {
 				amountsToBuy = new int[]{1, 1, 1};
 				break;
 		}
-		
 	}
 	
 	@Override
@@ -59,17 +79,12 @@ public class ShopMenu extends ArcadiaMenu {
 		int[] buySlots = new int[]{14, 15, 16};
 		
 		for (int i = 2; i >= 0; i--) {
-			inventory.setItem(sellSlots[i], getSellItem(amountsToBuy[i], this.price));
+			if (!customItem) inventory.setItem(sellSlots[i], getSellItem(amountsToBuy[i], this.price));
 			inventory.setItem(buySlots[i], getBuyItem(amountsToBuy[i], this.price));
 		}
 		
-		inventory.setItem(13, new ItemStackBuilder(this.item.getDisplayItem()).setDisplayName("&c<-- Sell&7 |&6 Buy -->").build());
+		inventory.setItem(13, this.item.getItem());
 		return inventory;
-	}
-	
-	@Override
-	public String getPermission() {
-		return "";
 	}
 	
 	private static ItemStack getBuyItem(int amount, double price) {

@@ -121,7 +121,7 @@ public class TpaCMD extends ACommand {
 				@Override
 				public void run() {
 					if (tpas.containsKey(tpa.getUniqueId())) {
-						respondf(tpa, "&cThe tpa request to&e %s&c expired!", player.getName());
+						respondf(sender, "&cThe tpa request to&e %s&c expired!", tpa.getName());
 					}
 					
 					tpas.remove(tpa.getUniqueId());

@@ -33,7 +33,7 @@ public class VipCMD extends ACommand {
 	public void execute(CommandSender sender, String label, String[] args) {
 		Player player = validatePlayer(sender);
 		
-		if (player.hasPermission(VipMenu.PERMISSION)) {
+		if (player.hasPermission("group.vip")) {
 			
 			VipMenu menu = new VipMenu(player);
 			player.openInventory(menu.inventory());

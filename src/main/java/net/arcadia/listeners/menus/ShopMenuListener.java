@@ -5,7 +5,7 @@ import net.arcadia.Arcadian;
 import net.arcadia.menu.menus.ShopMenu;
 import net.arcadia.misc.ShopFrameItem;
 import net.arcadia.misc.Transaction;
-import net.arcadia.util.ItemStackBuilder;
+import net.arcadia.survival.items.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,8 +30,22 @@ public class ShopMenuListener implements Listener {
 			ItemStack current = event.getCurrentItem();
 			if (current == null || current.getType().equals(Material.AIR)) return;
 			
-			ShopFrameItem item = ShopFrameItem.isShopItem(event.getInventory().getItem(13));
+			ItemStack center = event.getInventory().getItem(13);
+			ShopFrameItem item = ShopFrameItem.isShopItem(center);
 			if (item == null) return;
+			
+			ItemStack toBuy = item.getItem();
+			
+			NBTItem nbt = new NBTItem(item.getItem());
+			
+			String customItemId = nbt.getString("ci");
+			if (customItemId != null) {
+				
+				CustomItem cItem = CustomItem.getCustomItem(customItemId);
+				if (cItem != null) {
+					toBuy = cItem.getItem();
+				}
+			}
 			
 			NBTItem nbtCurrent = new NBTItem(current);
 			
@@ -41,11 +55,13 @@ public class ShopMenuListener implements Listener {
 			double price = nbtCurrent.getDouble("price");
 			int amount = nbtCurrent.getInteger("amount");
 			
+			toBuy.setAmount(amount);
+			
 			Transaction transaction;
 			if (action.equalsIgnoreCase("buy")) {
-				transaction = new Transaction(player, price, true, new ItemStackBuilder(item.getItem()).setAmount(amount).build());
+				transaction = new Transaction(player, price, true, toBuy);
 			} else {
-				transaction = new Transaction(player, price, false, new ItemStackBuilder(item.getItem()).setAmount(amount).build());
+				transaction = new Transaction(player, price, false, toBuy);
 			}
 			
 			Transaction.TransactionResponse response = transaction.execute();

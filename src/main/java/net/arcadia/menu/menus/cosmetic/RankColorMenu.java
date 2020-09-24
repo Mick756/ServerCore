@@ -14,9 +14,8 @@ import org.bukkit.inventory.Inventory;
 public class RankColorMenu extends ArcadiaMenu {
 	
 	public static String NAME = Globals.color("&0Select your&b MVP&0 rank color!");
-	public static String PERMISSION = "arcadia.menu.rankcolor";
 	
-	private @Getter Player player;
+	private final @Getter Player player;
 	public RankColorMenu(Player player) {
 		this.player = player;
 	}
@@ -78,15 +77,10 @@ public class RankColorMenu extends ArcadiaMenu {
 		return inventory;
 	}
 	
-	@Override
-	public String getPermission() {
-		return PERMISSION;
-	}
-	
-	private class ItemColorCombo {
+	private static class ItemColorCombo {
 		
-		private @Getter ItemStackBuilder builder;
-		private @Getter ChatColor color;
+		private final @Getter ItemStackBuilder builder;
+		private final @Getter ChatColor color;
 		
 		public ItemColorCombo(ItemStackBuilder builder, ChatColor color) {
 			this.builder = builder;

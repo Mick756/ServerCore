@@ -107,3 +107,6 @@ commands:
   firework:
     description: Launch a random firework!
     aliases: [fw, firew, fwork]
+  givecustomitem:
+    description: Receive a custom item.
+    aliases: [gci, giveci, gcitem]

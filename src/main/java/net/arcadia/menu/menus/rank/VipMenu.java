@@ -13,9 +13,8 @@ import org.bukkit.inventory.Inventory;
 public class VipMenu extends RankMenu {
 	
 	public static String NAME = Globals.color("&0Select your&a VIP&0 perks!");
-	public static String PERMISSION = "arcadia.menu.mvp";
 	
-	private @Getter Player player;
+	private final @Getter Player player;
 	public VipMenu(Player player) {
 		this.player = player;
 	}
@@ -49,10 +48,5 @@ public class VipMenu extends RankMenu {
 		inventory.setItem(50, close.getItem());
 		
 		return inventory;
-	}
-	
-	@Override
-	public String getPermission() {
-		return PERMISSION;
 	}
 }

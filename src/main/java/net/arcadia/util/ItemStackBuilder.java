@@ -44,7 +44,7 @@ public class ItemStackBuilder {
 	}
 	
 	public ItemStackBuilder addEnchantment(Enchantment enchantment, int level) {
-		this.stack.addEnchantment(enchantment, level);
+		this.stack.addUnsafeEnchantment(enchantment, level);
 		return this;
 	}
 	
@@ -99,8 +99,7 @@ public class ItemStackBuilder {
 	}
 	
 	public ItemStackBuilder setLore(String... lore) {
-		List<String> newLore = Arrays.asList(lore);
-		newLore.addAll(Arrays.stream(lore).map(Globals::color).collect(Collectors.toList()));
+		List<String> newLore = Arrays.stream(lore).map(Globals::color).collect(Collectors.toList());
 		this.getMeta().setLore(newLore);
 		return this;
 	}

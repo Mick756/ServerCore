@@ -33,7 +33,7 @@ public class MvpCMD extends ACommand {
 	public void execute(CommandSender sender, String label, String[] args) {
 		Player player = validatePlayer(sender);
 		
-		if (player.hasPermission(MvpMenu.PERMISSION)) {
+		if (player.hasPermission("group.mvp")) {
 		
 			MvpMenu menu = new MvpMenu(player);
 			player.openInventory(menu.inventory());

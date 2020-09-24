@@ -147,6 +147,7 @@ public abstract class ACommand {
 		addCommand("tphere", new TpHereCMD());
 		addCommand("serverinfo", new ServerInfoCMD());
 		addCommand("firework", new FireworkCMD());
+		addCommand("givecustomitem", new GiveCustomItemCMD());
 		
 		PluginManager pm = Bukkit.getPluginManager();
 		for (ACommand command : commands) {
