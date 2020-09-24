@@ -2,6 +2,7 @@ package net.arcadia.commands.economy;
 
 import net.arcadia.ACommand;
 import net.arcadia.ArcadiaCore;
+import net.arcadia.Arcadian;
 import net.arcadia.util.Util;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -34,6 +35,21 @@ public class BalanceEditCMD extends ACommand {
 	
 	@Override
 	public void execute(CommandSender sender, String label, String[] args) {
+		
+		if (args.length == 1) {
+			
+			if (args[0].equalsIgnoreCase("resetall")) {
+			
+				for (Arcadian arcadian : Arcadian.getAll()) {
+					arcadian.setBalance(0.0);
+					arcadian.save(false);
+				}
+				
+				respond(sender, "&7You have reset everyone's balance.");
+				return;
+			}
+		}
+		
 		validateArgsLength(args, 3);
 		
 		Economy econ = ArcadiaCore.getEconomy();

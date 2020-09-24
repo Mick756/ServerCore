@@ -15,14 +15,39 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 public class Arcadian extends OfflineArcadian {
 	
-	private static final @Getter Map<UUID, Arcadian> arcadians = new HashMap<>();
+	private static final @Getter ConcurrentMap<UUID, Arcadian> arcadians = new ConcurrentHashMap<>();
+	
+	static {
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				
+				for (UUID uuid : arcadians.keySet()) {
+					
+					OfflinePlayer pl = Bukkit.getOfflinePlayer(uuid);
+					if (!pl.isOnline()) {
+						arcadians.remove(uuid);
+					}
+				}
+				
+			}
+		}.runTaskTimer(ArcadiaCore.getInstance(), 0, 200L);
+		
+	}
 	
 	private final @Getter UUID uuid;
 	
@@ -30,7 +55,7 @@ public class Arcadian extends OfflineArcadian {
 	private OfflinePlayer offlinePlayer = null;
 	
 	private final File configFile;
-	private final @Getter YamlConfiguration config;
+	private @Getter YamlConfiguration config;
 	
 	private Date firstJoin = new Date();
 	
@@ -67,8 +92,8 @@ public class Arcadian extends OfflineArcadian {
 			this.config = YamlConfiguration.loadConfiguration(this.configFile);
 			loadFromFile();
 		} else {
-			this.configFile.createNewFile();
-			this.config = YamlConfiguration.loadConfiguration(this.configFile);
+			boolean created = this.configFile.createNewFile();
+			if (created) this.config = YamlConfiguration.loadConfiguration(this.configFile);
 			
 			this.save(true);
 		}
@@ -267,6 +292,26 @@ public class Arcadian extends OfflineArcadian {
 		}
 		
 		this.config.save(this.configFile);
+	}
+	
+	public static List<Arcadian> getAll() {
+		List<Arcadian> arcadians = new ArrayList<>();
+		
+		File playerFolder = new File(ArcadiaCore.getInstance().getDataFolder() + "/players");
+		if (!playerFolder.exists()) return arcadians;
+		
+		File[] playerFiles = playerFolder.listFiles();
+		if (playerFiles != null && playerFiles.length > 0) {
+			
+			for (File f : playerFiles) {
+				UUID uuid = UUID.fromString(f.getName().replace(".yml", ""));
+				
+				arcadians.add(get(uuid));
+			}
+			
+		}
+		
+		return arcadians;
 	}
 	
 	public static Arcadian get(Player player) {

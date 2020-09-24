@@ -1,7 +1,6 @@
 package net.arcadia.listeners.kills;
 
 import net.arcadia.ArcadiaCore;
-import net.arcadia.util.Globals;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +16,6 @@ public class EconomyKillListener implements Listener {
 			double worth = getWorth(event.getEntity().getType());
 			
 			ArcadiaCore.getEconomy().depositPlayer(killer, worth);
-			killer.sendMessage(String.format(Globals.color("&6+$%.2f&7 (Mob Kill)"), worth));
 		}
 	}
 

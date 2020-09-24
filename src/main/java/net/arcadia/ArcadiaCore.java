@@ -8,7 +8,6 @@ import net.arcadia.chat.Mute;
 import net.arcadia.listeners.CommandListener;
 import net.arcadia.listeners.ConnectionListener;
 import net.arcadia.listeners.item.UseCustomItemListener;
-import net.arcadia.listeners.kills.EconomyKillListener;
 import net.arcadia.listeners.menus.GlobalMenuListener;
 import net.arcadia.listeners.menus.MvpMenuEvents;
 import net.arcadia.listeners.menus.ShopMenuListener;
@@ -128,7 +127,7 @@ public class ArcadiaCore extends JavaPlugin {
 		
 		registerListeners(new ChatListener(), new ConnectionListener(), new CommandListener(),
 				new GlobalMenuListener(), new MvpMenuEvents(), new ShopListener(),
-				new ShopMenuListener(), new EconomyKillListener(), new UseCustomItemListener());
+				new ShopMenuListener(), new UseCustomItemListener());
 		info("Registered all plugin listeners");
 		
 		Mute.loadMutes();

@@ -148,6 +148,7 @@ public abstract class ACommand {
 		addCommand("serverinfo", new ServerInfoCMD());
 		addCommand("firework", new FireworkCMD());
 		addCommand("givecustomitem", new GiveCustomItemCMD());
+		addCommand("listarcadian", new ListArcadiansCMD());
 		
 		PluginManager pm = Bukkit.getPluginManager();
 		for (ACommand command : commands) {

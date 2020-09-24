@@ -1,6 +1,6 @@
 name: ArcadiaCore
 main: net.arcadia.ArcadiaCore
-version: 1.1.4
+version: 1.2.7
 api-version: 1.13
 author: Kidzyy
 description: The backbone of Arcadia.
@@ -110,3 +110,6 @@ commands:
   givecustomitem:
     description: Receive a custom item.
     aliases: [gci, giveci, gcitem]
+  listarcadians:
+    description: List every Arcadian that has ever joined.
+    aliases: [listarc, listplayers, listpls]
