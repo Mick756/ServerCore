@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import net.arcadia.misc.Home;
+import net.arcadia.quests.Quest;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
 import org.bukkit.Bukkit;
@@ -72,6 +73,7 @@ public class Arcadian extends OfflineArcadian {
 	private @Getter @Setter Arcadian lastMessaged = null;
 	
 	private @Getter List<Home> homes = new ArrayList<>();
+	private @Getter List<Quest> activeQuests = new ArrayList<>();
 	
 	@SneakyThrows
 	public Arcadian(UUID uuid) {
@@ -319,11 +321,7 @@ public class Arcadian extends OfflineArcadian {
 	}
 	
 	public static Arcadian get(UUID uuid) {
-		Arcadian arcadian = arcadians.get(uuid);
-		if (arcadian == null) {
-			return new Arcadian(uuid);
-		}
-		return arcadian;
+		return arcadians.getOrDefault(uuid, new Arcadian(uuid));
 	}
 	
 }

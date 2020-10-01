@@ -28,6 +28,12 @@ public abstract class Quest {
 	
 	public abstract Reward reward();
 	
+	/**
+	 * If -1, the quest is either repeatable and/or never expires.
+	 * @return The time in milliseconds the quest will expire for every player.
+	 */
+	public abstract Long expiration();
+	
 	@Override
 	public String toString() {
 		return String.format(Globals.color(
