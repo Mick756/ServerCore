@@ -1,6 +1,6 @@
 name: ArcadiaCore
 main: net.arcadia.ArcadiaCore
-version: 1.2.7
+version: 1.2.9
 api-version: 1.13
 author: Kidzyy
 description: The backbone of Arcadia.

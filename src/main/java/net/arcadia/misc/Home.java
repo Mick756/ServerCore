@@ -12,9 +12,9 @@ import java.util.List;
 
 public class Home {
 	
-	private @Getter String name;
-	private @Getter Player player;
-	private @Getter Location location;
+	private final @Getter String name;
+	private final @Getter Player player;
+	private final @Getter Location location;
 	
 	public Home(String name, Player player, Location location) {
 		this.name = name;
@@ -33,7 +33,7 @@ public class Home {
 	
 	@Override
 	public String toString() {
-		return String.format("&4%s\n&7Location: [X: &b%d&7, Y: &b%d&7, Z: &b%d&7]", this.name, this.location.getBlockX(), this.location.getBlockY(), this.location.getBlockZ());
+		return String.format("&c%s\n&7World:&9 %s\n&7Location: [X: &9%d&7, Y: &9%d&7, Z: &9%d&7]", this.name, this.location.getWorld().getName(), this.location.getBlockX(), this.location.getBlockY(), this.location.getBlockZ());
 	}
 	
 	public static List<Home> get(Arcadian arcadian) {

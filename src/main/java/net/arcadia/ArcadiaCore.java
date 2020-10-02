@@ -222,7 +222,23 @@ public class ArcadiaCore extends JavaPlugin {
 		return found;
 	}
 	
-	public static Boolean getBooleanOrDefault(String path, boolean def, boolean setIfNot) {
+	public static long getLongOrDefault(String path, long def, boolean setIfNot) {
+		long found = def;
+		
+		FileConfiguration config = instance.getConfig();
+		if (config.isSet(path)) {
+			found = config.getLong(path);
+		} else {
+			if (setIfNot) {
+				config.set(path, def);
+				instance.saveConfig();
+			}
+		}
+		
+		return found;
+	}
+	
+	public static boolean getBooleanOrDefault(String path, boolean def, boolean setIfNot) {
 		boolean found = def;
 		
 		FileConfiguration config = instance.getConfig();

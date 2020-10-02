@@ -23,7 +23,7 @@ public class TpaCMD extends ACommand {
 	
 	public TpaCMD() {
 		
-		cooldown = TimeUnit.SECONDS.toMillis(ArcadiaCore.getInstance().getConfig().getLong("command-settings.tpa.cooldown"));
+		cooldown = TimeUnit.SECONDS.toMillis(ArcadiaCore.getLongOrDefault("command-settings.tpa.cooldown", 45, true));
 		
 	}
 	
@@ -71,6 +71,8 @@ public class TpaCMD extends ACommand {
 				
 				respond(tpa, "&7Teleporting you now...");
 				tpa.teleport(pLoc);
+				
+				tpas.remove(uuid);
 			} else {
 				respond(sender, "&cThat player is no longer online, request cancelled.");
 			}
@@ -111,11 +113,12 @@ public class TpaCMD extends ACommand {
 			}
 			
 			tpas.put(tpa.getUniqueId(), player.getUniqueId());
+			
 			respondf(sender, "&7You sent a tpa request to&b %s&7.", tpa.getName());
 			respond(sender, "&7This tpa request will expire in&c 10 seconds&7.");
+			
 			respondf(tpa, "&b%s&7 would like to teleport to you.", player.getName());
 			respond(tpa, "&7You can either&b /tpa accept&7 or&b /tpa decline&7.");
-			respond(tpa, "&7This tpa request will expire in&c 10 seconds&7.");
 			
 			new BukkitRunnable() {
 				@Override

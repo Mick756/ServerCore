@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import net.arcadia.misc.Home;
-import net.arcadia.quests.Quest;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
 import org.bukkit.Bukkit;
@@ -73,7 +72,7 @@ public class Arcadian extends OfflineArcadian {
 	private @Getter @Setter Arcadian lastMessaged = null;
 	
 	private @Getter List<Home> homes = new ArrayList<>();
-	private @Getter List<Quest> activeQuests = new ArrayList<>();
+	//private @Getter List<Quest> activeQuests = new ArrayList<>();
 	
 	@SneakyThrows
 	public Arcadian(UUID uuid) {
@@ -99,8 +98,6 @@ public class Arcadian extends OfflineArcadian {
 			
 			this.save(true);
 		}
-		
-		arcadians.put(uuid, this);
 	}
 	
 	public void updateFirstJoin() {
@@ -254,18 +251,22 @@ public class Arcadian extends OfflineArcadian {
 	@SneakyThrows
 	public void loadFromFile() {
 		this.customTag = this.config.getString("ctag");
-		if (this.customTag == null) {
+		if (this.customTag == null || this.customTag.toCharArray().length == 0) {
 			this.customTag = "";
 		}
+		
 		this.group = this.config.getString("group");
-		if (this.group == null) {
+		if (this.group == null || this.group.toCharArray().length == 0) {
 			this.group = "member";
 		}
+		
 		this.receivingMessages = this.config.getBoolean("messages");
+		
 		this.nick = this.config.getString("nick");
-		if (this.nick == null) {
+		if (this.nick == null || this.nick.toCharArray().length == 0) {
 			this.nick = "";
 		}
+		
 		this.timesMuted = this.config.getInt("history.mutes");
 		long first = config.getLong("first-join");
 		this.firstJoin = first == 0L ? new Date() : new Date(first);

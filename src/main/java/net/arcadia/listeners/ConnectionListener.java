@@ -16,16 +16,6 @@ import java.util.UUID;
 
 public class ConnectionListener implements Listener {
 	
-//	@EventHandler (priority = EventPriority.HIGHEST)
-//	public void onPlayerLogin(PlayerLoginEvent event) {
-//		String proxy = ArcadiaCore.getInstance().getConfig().getString("proxy");
-//		String host = event.getAddress().getHostAddress();
-//		if (!host.contains(proxy)) {
-//			ArcadiaCore.error("This join would have been disallowed. Host: " + host);
-//			//event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Globals.color("&cYou are now able to join the server through this IP."));
-//		}
-//	}
-	
 	@EventHandler (priority = EventPriority.HIGH)
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
@@ -58,12 +48,21 @@ public class ConnectionListener implements Listener {
 			Mute.getAwaitingMutes().remove(player.getUniqueId());
 		}
 		
-		if (!player.isOp() && player.hasPermission("group.mvp")) {
-			event.setJoinMessage(Globals.color(String.format("&6<&c+&6>&b %s&7 has joined the server. &6<&c+&6>", player.getDisplayName())));
-			return;
+		String group = arcadian.getGroup();
+		if (group.equalsIgnoreCase("developer") || group.equalsIgnoreCase("owner") || group.equalsIgnoreCase("moderator")) {
+			event.setJoinMessage(Globals.color(String.format("&4#&c Staff member %s joined.&4 #", player.getName())));
+		} else {
+			if (!player.isOp() && player.hasPermission("group.mvp")) {
+				event.setJoinMessage(Globals.color(String.format("&6<&c+&6>&b %s&7 has joined the server. &6<&c+&6>", player.getDisplayName())));
+			} else {
+				event.setJoinMessage(Globals.color(String.format("&a+ &7%s has joined the server.", player.getName())));
+			}
 		}
 		
-		event.setJoinMessage(Globals.color(String.format("&7%s has joined the server.", player.getName())));
+		arcadian.sendMessage(false, "&6Welcome %sto the&e Arcadia&6, %s!", player.hasPlayedBefore() ? "back " : "", player.getName());
+		//arcadian.sendMessage(false, "&6You current have&e %d&6 active quests&6.", arcadian.getActiveQuests().size());
+		
+		Arcadian.getArcadians().put(player.getUniqueId(), arcadian);
 	}
 	
 	@EventHandler
@@ -73,5 +72,7 @@ public class ConnectionListener implements Listener {
 		
 		arcadian.save(false);
 		Arcadian.getArcadians().remove(player.getUniqueId());
+		
+		event.setQuitMessage(Globals.color(String.format("&c- &7%s has left the server.", player.getName())));
 	}
 }
