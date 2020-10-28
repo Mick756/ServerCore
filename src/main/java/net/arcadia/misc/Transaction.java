@@ -1,6 +1,7 @@
 package net.arcadia.misc;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.arcadia.ArcadiaCore;
 import net.arcadia.Arcadian;
 import net.milkbowl.vault.economy.Economy;
@@ -74,7 +75,7 @@ public class Transaction {
 	public static class TransactionResponse {
 		
 		private final @Getter TransactionResult result;
-		private final @Getter String message;
+		private @Getter @Setter String message;
 		
 		public TransactionResponse(TransactionResult result, String message, Object... format) {
 			this.result = result;

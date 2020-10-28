@@ -5,13 +5,13 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import net.arcadia.chat.ChatListener;
 import net.arcadia.chat.Mute;
-import net.arcadia.listeners.CommandListener;
-import net.arcadia.listeners.ConnectionListener;
-import net.arcadia.listeners.item.UseCustomItemListener;
-import net.arcadia.listeners.menus.GlobalMenuListener;
-import net.arcadia.listeners.menus.MvpMenuEvents;
-import net.arcadia.listeners.menus.ShopMenuListener;
-import net.arcadia.listeners.shop.ShopListener;
+import net.arcadia.listener.CommandListener;
+import net.arcadia.listener.ConnectionListener;
+import net.arcadia.listener.item.UseCustomItemListener;
+import net.arcadia.listener.menus.GlobalMenuListener;
+import net.arcadia.listener.menus.MvpMenuEvents;
+import net.arcadia.listener.menus.ShopMenuListener;
+import net.arcadia.listener.shop.ShopListener;
 import net.arcadia.misc.ArcadianEconomy;
 import net.arcadia.misc.Kit;
 import net.arcadia.misc.PluginMessageManager;
@@ -163,7 +163,6 @@ public class ArcadiaCore extends JavaPlugin {
 		
 		info("Initialization complete.");
 		info("&8********************************************");
-		
 	}
 	
 	@Override
@@ -263,51 +262,43 @@ public class ArcadiaCore extends JavaPlugin {
 	
 	@SneakyThrows
 	public void loadFiles() {
-		if (!getDataFolder().exists()) {
-			getDataFolder().mkdir();
-		}
 		
-		File langFolder = new File(getDataFolder() + "/lang");
-		if (!langFolder.exists()) {
-			langFolder.mkdir();
-		}
-		
-		File playerFolder = new File(getDataFolder() + "/players");
-		if (!playerFolder.exists()) {
-			playerFolder.mkdir();
-		}
-		
-		File kitFolder = new File(getDataFolder() + "/kits");
-		if (!kitFolder.exists()) {
-			kitFolder.mkdir();
-		}
-		
-		CustomFile[] files = new CustomFile[]{
-				new CustomFile(new File(this.getDataFolder(), "config.yml"), "config.yml"),
-				new CustomFile(new File(this.getDataFolder() + "/lang", "en_us.yml"), "en_us.yml"),
-				new CustomFile(new File(this.getDataFolder(), "mutes.yml"), null),
-				new CustomFile(new File(this.getDataFolder(), "reports.yml"), null),
-				new CustomFile(new File(this.getDataFolder(), "bug_reports.yml"), null),
-				new CustomFile(new File(this.getDataFolder(), "pay_logs.txt"), null)
+		CustomFile[] files = new CustomFile[] {
+				new CustomFile(getDataFolder(), null, true),
+				new CustomFile(new File(getDataFolder() + "/lang"), null, true),
+				new CustomFile(new File(getDataFolder() + "/players"), null, true),
+				new CustomFile(new File(getDataFolder() + "/kits"), null, true),
+				new CustomFile(new File(getDataFolder() + "/quests"), null, true),
+				new CustomFile(new File(this.getDataFolder(), "config.yml"), "config.yml", false),
+				new CustomFile(new File(this.getDataFolder() + "/lang", "en_us.yml"), "en_us.yml", false),
+				new CustomFile(new File(this.getDataFolder(), "mutes.yml"), null, false),
+				new CustomFile(new File(this.getDataFolder(), "reports.yml"), null, false),
+				new CustomFile(new File(this.getDataFolder(), "bug_reports.yml"), null, false),
+				new CustomFile(new File(this.getDataFolder(), "pay_logs.txt"), null, false)
 		};
 		
 		for (CustomFile cf : files) {
 			if (!cf.getFile().exists()) {
-				if (cf.getFile().getParentFile() == this.getDataFolder()) {
-					this.saveResource(cf.getResource(), true);
+				
+				if (cf.isDir()) {
+					cf.getFile().mkdir();
 				} else {
-					cf.getFile().createNewFile();
-					if (cf.getResource() != null) {
-						File outFile = cf.getFile();
-						InputStream in = getResource(cf.getResource());
-						OutputStream out = new FileOutputStream(outFile);
-						byte[] buffer = new byte[1024];
-						int ln;
-						while ((ln = in.read(buffer)) > 0) {
-							out.write(buffer, 0, ln);
+					if (cf.getFile().getParentFile() == this.getDataFolder()) {
+						this.saveResource(cf.getResource(), true);
+					} else {
+						cf.getFile().createNewFile();
+						if (cf.getResource() != null) {
+							File outFile = cf.getFile();
+							InputStream in = getResource(cf.getResource());
+							OutputStream out = new FileOutputStream(outFile);
+							byte[] buffer = new byte[1024];
+							int ln;
+							while ((ln = in.read(buffer)) > 0) {
+								out.write(buffer, 0, ln);
+							}
+							out.close();
+							in.close();
 						}
-						out.close();
-						in.close();
 					}
 				}
 				info("Created file: " + cf.getFile().getName());

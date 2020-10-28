@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import net.arcadia.misc.Home;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Util;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -295,6 +296,21 @@ public class Arcadian extends OfflineArcadian {
 		}
 		
 		this.config.save(this.configFile);
+	}
+	
+	public static List<Arcadian> getOnlineStaff() {
+		
+		List<Arcadian> staff = new ArrayList<>();
+		Permission perm = ArcadiaCore.getPermission();
+		
+		for (Arcadian arcadian : arcadians.values()) {
+			Player player = arcadian.getPlayer();
+			if (perm.has(player, "group.owner") || perm.has(player, "group.developer") || perm.has(player, "group.moderator")) {
+				staff.add(arcadian);
+			}
+		}
+		
+		return staff;
 	}
 	
 	public static List<Arcadian> getAll() {

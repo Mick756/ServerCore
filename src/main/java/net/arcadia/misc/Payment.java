@@ -41,8 +41,9 @@ public class Payment {
 	
 	public void message() {
 		this.sender.sendMessage(ArcadiaCore.getPrefix() + String.format(Globals.color("&7You successfully paid&b %s&a $%.2f&7."), this.receiver.getName(), this.amount));
-		if (this.receiver.isOnline())
+		if (this.receiver.isOnline() && this.receiver.getPlayer() != null) {
 			this.receiver.getPlayer().sendMessage(ArcadiaCore.getPrefix() + String.format(Globals.color("&7You received a payment from&b %s&7 of &a $%.2f&7."), this.sender.getName(), this.amount));
+		}
 	}
 	
 	@SneakyThrows

@@ -33,7 +33,7 @@ public class Home {
 	
 	@Override
 	public String toString() {
-		return String.format("&c%s\n&7World:&9 %s\n&7Location: [X: &9%d&7, Y: &9%d&7, Z: &9%d&7]", this.name, this.location.getWorld().getName(), this.location.getBlockX(), this.location.getBlockY(), this.location.getBlockZ());
+		return String.format("&c%s\n&7World:&9 %s\n&7Location: X: &9%d&7, Y: &9%d&7, Z: &9%d&7", this.name, this.location.getWorld().getName(), this.location.getBlockX(), this.location.getBlockY(), this.location.getBlockZ());
 	}
 	
 	public static List<Home> get(Arcadian arcadian) {
