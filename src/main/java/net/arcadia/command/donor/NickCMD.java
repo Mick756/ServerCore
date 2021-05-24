@@ -56,7 +56,7 @@ public class NickCMD extends ACommand {
 			if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("clear")) {
 					arcadian.setNick("");
-					arcadian.updateNameDisplay();
+					arcadian.refreshName();
 					
 					respond(sender, "&7You have reset your nick!");
 					return;
@@ -80,7 +80,7 @@ public class NickCMD extends ACommand {
 					String coloredNick = Globals.color(nick);
 					
 					arcadian.setNick(coloredNick);
-					arcadian.updateNameDisplay();
+					arcadian.refreshName();
 					
 					respondf(sender, "&7You have now set your nick to %s&7.", coloredNick);
 					return;

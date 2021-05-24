@@ -13,6 +13,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scoreboard.NameTagVisibility;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.io.BufferedReader;
@@ -29,12 +32,8 @@ public class Util {
 	public static Map<String, String[]> words = new HashMap<>();
 	private static int largestWordLength = 0;
 	
-	public Util() {
-		loadBadWords();
-	}
-	
 	@SneakyThrows
-	private static void loadBadWords() {
+	public static void loadBadWords() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("https://docs.google.com/spreadsheets/d/1hIEi2YG3ydav1E06Bzf2mQbGZ12kh2fe4ISgLg_UBuM/export?format=csv").openConnection().getInputStream()));
 		String line;
 		while((line = reader.readLine()) != null) {
@@ -390,6 +389,56 @@ public class Util {
 				break;
 		}
 		return Color.YELLOW;
+	}
+	
+	public static void changePlayerName(Player player, String prefix, String suffix, TeamAction action) {
+		
+		Scoreboard scoreboard;
+		Team team;
+		
+		if (player == null || prefix == null || suffix == null || action == null) {
+			return;
+		}
+		
+		scoreboard = player.getScoreboard();
+		
+		if (scoreboard.getTeam(player.getName()) == null) {
+			scoreboard.registerNewTeam(player.getName());
+		}
+		
+		team = scoreboard.getTeam(player.getName());
+		
+		if (team != null) {
+			team.setPrefix(Globals.color(prefix));
+			team.setSuffix(Globals.color(suffix));
+			team.setNameTagVisibility(NameTagVisibility.ALWAYS);
+			
+			switch (action) {
+				case CREATE:
+					team.addPlayer(player);
+					break;
+				case UPDATE:
+					team.unregister();
+					scoreboard.registerNewTeam(player.getName());
+					team = scoreboard.getTeam(player.getName());
+					
+					if (team != null) {
+						team.setPrefix(Globals.color(prefix));
+						team.setSuffix(Globals.color(suffix));
+						team.setNameTagVisibility(NameTagVisibility.ALWAYS);
+						team.addPlayer(player);
+					}
+					
+					break;
+				case DESTROY:
+					team.unregister();
+					break;
+			}
+		}
+	}
+	
+	public enum TeamAction {
+		CREATE, DESTROY, UPDATE
 	}
 	
 }

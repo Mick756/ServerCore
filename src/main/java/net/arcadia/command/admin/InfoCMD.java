@@ -70,7 +70,7 @@ public class InfoCMD extends ACommand {
 				"&3Info available offline&7 -&c Info available online",
 				String.format("   &3Name:&7 %s", offlinePlayer.getName()),
 				String.format("   &3UUID:&7 %s", offlinePlayer.getUniqueId().toString()),
-				String.format("   &3Current Tag:&7 %s", arcadian.getCurrentlyShownTag()),
+				String.format("   &3Current Tag:&7 %s", arcadian.getPrefix()),
 				String.format("   &3Parent Tag:&7 %s", ArcadiaCore.getInstance().getConfig().getString("tags." + arcadian.getGroup())),
 				String.format("   &3First Join:&7 %s", Util.toReadableTime(arcadian.getFirstJoin())),
 				String.format("   &3Times Muted:&7 %d", arcadian.getTimesMuted()),

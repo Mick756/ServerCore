@@ -107,6 +107,12 @@
             <artifactId>GriefPrevention</artifactId>
             <version>16.14.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>18.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -18,13 +18,13 @@ proxy: 127.0.0.1
 tags:
   member: '&7[Member]'
   vip: '&a[VIP]&r'
-  mvp: '&b[MVP]'
-  moderator: '&2[Moderator]'
-  developer: '&c[Developer]'
-  builder: '&9[Builder]'
-  admin: '&c[Admin]'
+  mvp: '&b[MVP]&r'
+  moderator: '&2[Moderator]&r'
+  developer: '&c[Developer]&r'
+  builder: '&9[Builder]&r'
+  admin: '&c[Admin]&r'
   owner: '&4&l{Owner}&r'
-  cdesigner: '&3[CDesigner]'
+  cdesigner: '&3[CDesigner]&r'
 
 ## Chat configuration
 chat-format: '%prefix% %name%:&f %message%'
@@ -35,9 +35,17 @@ spawn:
   y: 80
   z: 0
 
+## What server is this running on? (smp, story, lobby)
+mode: lobby
+
+## If the server is running on 'lobby' modify the settings here.
+lobby-settings:
+
+## If the server is running on 'smp' modify the settings here.
 survival-settings:
-  ## Is this the SMP server?
-  survival: true
+
+## If the server is running on 'story' modify the settings here.
+story-settings:
 
 ## Cooldowns are in seconds
 command-settings:

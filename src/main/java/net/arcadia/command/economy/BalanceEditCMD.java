@@ -42,7 +42,6 @@ public class BalanceEditCMD extends ACommand {
 			
 				for (Arcadian arcadian : Arcadian.getAll()) {
 					arcadian.setBalance(0.0);
-					arcadian.save(false);
 				}
 				
 				respond(sender, "&7You have reset everyone's balance.");

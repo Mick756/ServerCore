@@ -3,8 +3,6 @@ package net.arcadia;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.arcadia.chat.ChatListener;
-import net.arcadia.chat.Mute;
 import net.arcadia.listener.CommandListener;
 import net.arcadia.listener.ConnectionListener;
 import net.arcadia.listener.item.UseCustomItemListener;
@@ -19,7 +17,6 @@ import net.arcadia.survival.items.CustomItem;
 import net.arcadia.survival.items.EnderPearlGun;
 import net.arcadia.util.Globals;
 import net.arcadia.util.Lang;
-import net.arcadia.util.Util;
 import net.arcadia.util.io.CustomFile;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -37,6 +34,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.Messenger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,20 +58,12 @@ public class ArcadiaCore extends JavaPlugin {
 	private final @Getter List<ACommand> zCommands = new ArrayList<>();
 	private @Getter Random random;
 	
-	public static void info(String message) {
-		Bukkit.getConsoleSender().sendMessage(Globals.color(String.format("%s %s", prefix, message)));
-	}
-	
-	public static void error(String message) {
-		Bukkit.getConsoleSender().sendMessage(Globals.color(String.format("%s &cERROR: %s", prefix, message)));
-	}
-	
 	@Override
 	public void onEnable() {
 		
-		if (checkForPaper()) {
+		if (this.checkForPaper()) {
 			error("Paper is required to run this version of ArcadiaCore. The plugin will now disable...");
-			onDisable();
+			this.onDisable();
 			return;
 		}
 		
@@ -84,9 +74,9 @@ public class ArcadiaCore extends JavaPlugin {
 		instance = this;
 		
 		luckPerms = LuckPermsProvider.get();
-		info("Connected to dependencies LuckPerms and Vault.");
+		info("Connected to dependencies LuckPerms.");
 		
-		loadFiles();
+		this.loadFiles();
 		
 		String langFileName = getConfig().getString("language-file");
 		File langFile;
@@ -105,7 +95,7 @@ public class ArcadiaCore extends JavaPlugin {
 		}
 		
 		random = new Random();
-		updateUserGroups();
+		this.updateUserGroups();
 		
 		List<String> presentGroups = luckPerms.getGroupManager().getLoadedGroups().stream().map(Group::getName).map(String::toLowerCase).collect(Collectors.toList());
 		for (String group : userGroups) {
@@ -118,24 +108,20 @@ public class ArcadiaCore extends JavaPlugin {
 		info(String.format("Registered %d groups from the config", userGroups.size()));
 		
 		Messenger messenger = getServer().getMessenger();
-		messenger.registerIncomingPluginChannel(this, "arcadiacore:in", new PluginMessageManager());
-		messenger.registerOutgoingPluginChannel(this, "arcadiacore:out");
-		info("Registered the incoming and outgoing BungeeCord channels");
+		messenger.registerIncomingPluginChannel(this, "arcadiacore:main", new PluginMessageManager());
+		info("Registered the incoming BungeeCord channels");
 		
 		int commands = ACommand.addCommands();
 		info(String.format("Registered %d commands.", commands));
 		
-		registerListeners(new ChatListener(), new ConnectionListener(), new CommandListener(),
+		registerListeners(new ConnectionListener(), new CommandListener(),
 				new GlobalMenuListener(), new MvpMenuEvents(), new ShopListener(),
 				new ShopMenuListener(), new UseCustomItemListener());
 		info("Registered all plugin listeners");
 		
-		Mute.loadMutes();
-		info("Loaded all mutes.");
-		
 		Bukkit.getServicesManager().register(Economy.class, new ArcadianEconomy(), Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Vault")), ServicePriority.Normal);
 		
-		setupVault();
+		this.setupVault();
 		
 		if (economy == null || permission == null) {
 			error("Vault was not properly setup.");
@@ -147,7 +133,7 @@ public class ArcadiaCore extends JavaPlugin {
 			}
 		}
 		
-		new Util();
+//		Util.loadBadWords();
 		
 		int kits = Kit.loadKits();
 		info(String.format("Added %d kits.", kits));
@@ -166,7 +152,7 @@ public class ArcadiaCore extends JavaPlugin {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		for (ACommand acmds : ACommand.getCommands()) {
 			if (acmds.matchesAlias(label) || acmds.matchesAlias(command.getName())) {
 				acmds.call(sender, label, args);
@@ -181,19 +167,21 @@ public class ArcadiaCore extends JavaPlugin {
 		info("&8********************************************");
 		info(String.format("Disabling ArcadiaCore version %s", this.getDescription().getVersion()));
 		
-		info("Saving all mutes.");
-		Mute.closeAndSave();
-		
-		for (Arcadian arcadian : Arcadian.getArcadians().values()) {
-			arcadian.save(false);
-		}
-		
 		info("Saving all kits.");
 		Kit.closeAndSave();
 		
 		info("Completed. Good-bye!");
 		info("&8********************************************");
 	}
+	
+	public static void info(String message) {
+		Bukkit.getConsoleSender().sendMessage(Globals.color(String.format("%s %s", prefix, message)));
+	}
+	
+	public static void error(String message) {
+		Bukkit.getConsoleSender().sendMessage(Globals.color(String.format("%s &cERROR: %s", prefix, message)));
+	}
+	
 	
 	public void registerListeners(Listener... listeners) {
 		for (Listener listener : listeners) {
@@ -202,7 +190,7 @@ public class ArcadiaCore extends JavaPlugin {
 	}
 	
 	public void updateUserGroups() {
-		userGroups = getConfig().getConfigurationSection("tags").getKeys(false).stream().map(String::toLowerCase).collect(Collectors.toList());
+		userGroups = Objects.requireNonNull(getConfig().getConfigurationSection("tags")).getKeys(false).stream().map(String::toLowerCase).collect(Collectors.toList());
 	}
 	
 	public static String getStringOrDefault(String path, String def, boolean setIfNot) {
@@ -293,7 +281,9 @@ public class ArcadiaCore extends JavaPlugin {
 							OutputStream out = new FileOutputStream(outFile);
 							byte[] buffer = new byte[1024];
 							int ln;
-							while ((ln = in.read(buffer)) > 0) {
+							while (true) {
+								assert in != null;
+								if (!((ln = in.read(buffer)) > 0)) break;
 								out.write(buffer, 0, ln);
 							}
 							out.close();

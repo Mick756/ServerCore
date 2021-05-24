@@ -62,14 +62,18 @@ public abstract class ACommand {
 		respond(sender, String.format(msg, objects));
 	}
 	
-	public static Player validatePlayer(CommandSender sender) {
-		if (sender instanceof Player) {
-			return (Player) sender;
-		} else throw new PlayerRequiredException();
+	public void respondiu(CommandSender sender, String label) {
+		respondf(sender, "&cIncorrect usage. Correct usage: /%s %s ", label, usage());
 	}
 	
 	public static void validateArgsLength(String[] args, int length) {
 		if (args.length != length) throw new IncorrectUsageException();
+	}
+	
+	public static Player validatePlayer(CommandSender sender) {
+		if (sender instanceof Player) {
+			return (Player) sender;
+		} else throw new PlayerRequiredException();
 	}
 	
 	public abstract String alias();
@@ -88,10 +92,6 @@ public abstract class ACommand {
 	
 	public boolean hasPerm(CommandSender sender) {
 		return permission().equals("") || sender.hasPermission(permission());
-	}
-	
-	public void respondiu(CommandSender sender, String label) {
-		respondf(sender, "&cIncorrect usage. Correct usage: /%s %s ", label, usage());
 	}
 	
 	public void call(CommandSender sender, String label, String[] args) {
@@ -118,17 +118,14 @@ public abstract class ACommand {
 		addCommand("home", new HomeCMD());
 		addCommand("gm", new GmCMD(), new GmaCMD(), new GmcCMD(), new GmsCMD(), new GmspCMD());
 		addCommand("info", new InfoCMD());
-		addCommand("msg", new MsgCMD());
-		addCommand("mute", new MuteCMD());
 		addCommand("mvp", new MvpCMD());
 		addCommand("vip", new VipCMD());
 		addCommand("nick", new NickCMD());
 		addCommand("ping", new PingCMD());
 		addCommand("random-teleport", new RandomTeleportCMD());
-		addCommand("reply", new ReplyCMD());
 		addCommand("bug-report", new ReportBugCMD());
 		addCommand("report", new ReportCMD());
-		addCommand("tag", new TagCMD());
+		//addCommand("tag", new TagCMD());
 		addCommand("tpa", new TpaCMD());
 		addCommand("spawn", new SpawnCMD());
 		addCommand("heal", new HealCMD());
