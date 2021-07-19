@@ -23,7 +23,7 @@ tags:
   developer: '&c[Developer]&r'
   builder: '&9[Builder]&r'
   admin: '&c[Admin]&r'
-  owner: '&4&l{Owner}&r'
+  owner: '&4[Owner]&r'
   cdesigner: '&3[CDesigner]&r'
 
 ## Chat configuration
